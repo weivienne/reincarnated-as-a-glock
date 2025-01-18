@@ -3,17 +3,13 @@
   src: url('./fonts/VivComicHandwriting-Regular.ttf') format('truetype');
 }
 
-.App {
-  text-align: center;
-  font-family: 'VivComicHandwriting-Regular';
-}
-
-.App-header {
-  background-color: rgb(81, 208, 200);
+.comic-gallery {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
   justify-content: center;
-  color: rgb(8, 81, 76);
-  padding: 10px;
+  padding: 20px;
+  background-color: #000000;
+  max-width: 100%;
+  overflow: hidden;
 }
