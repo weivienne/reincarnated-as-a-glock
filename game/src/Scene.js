@@ -7,7 +7,7 @@ function Scene({scene, gun_dialogues, other_dialogues}) {
       className="scene"
       style={{
         backgroundImage: `url(${scene.background})`,
-        height: "1080px",
+        height: "720px",
       }}
     >
     </div>
