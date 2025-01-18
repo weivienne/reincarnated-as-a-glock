@@ -49,7 +49,3 @@ span.active {
 span.correct {
   color: rgb(73, 234, 73);
 }
-
-span.wrong {
-  color: rgb(255, 0, 0);
-}

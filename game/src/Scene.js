@@ -16,6 +16,14 @@ function Scene({ scene }) {
     setCorrectWrong(Array(charRefs.current.length).fill(""));
   }, []);
 
+  const resetDialogue = () => {
+    setCharIndex(0);
+    setCorrectWrong(Array(charRefs.current.length).fill(""));
+    setIsTyping(false);
+    inputRef.current.focus();
+  }
+
+
   const handleInputChange = (e) => {
     const characters = charRefs.current;
     let currentChar = charRefs.current[charIndex];
@@ -36,15 +44,12 @@ function Scene({ scene }) {
         correctWrong[charIndex] = " correct ";
       } else {
         // Reset to beginning if incorrect
-        setCharIndex(0);
-        setCorrectWrong([]);
-        setIsTyping(false);
-
-        // correctWrong[charIndex] = " wrong ";
+        resetDialogue();
       }
 
       if (charIndex === characters.length - 1) {
         setIsTyping(false);
+        console.log("end");
       }
     } else {
       setIsTyping(false);
