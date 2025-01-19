@@ -1,14 +1,29 @@
-@font-face {
-  font-family: 'VivComicHandwriting-Regular';
-  src: url('./fonts/VivComicHandwriting-Regular.ttf') format('truetype');
-}
-
 .comic-gallery {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch; /* Ensure panels stretch to fill width */
+  justify-content: flex-start;
   background-color: #000000;
-  max-width: 100%;
-  overflow: hidden;
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Enable scrolling */
+  scroll-behavior: smooth;
+}
+
+.panel-wrapper {
+  width: 100%; /* Full width */
+  height: 100vh; /* Full viewport height for each panel */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-wrapper.active {
+  outline: 2px solid #00e8c9; /* Optional visual indicator for active panel */
+}
+
+.panel {
+  width: 100%; /* Ensure panel fills its wrapper */
+  height: 100%; /* Ensure panel fills its wrapper */
+  background-size: cover;
+  background-position: center;
 }

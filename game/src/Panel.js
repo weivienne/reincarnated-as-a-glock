@@ -1,63 +1,60 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
 
-function Panel({ panel, setIsCompleted }) {
-  const dialogue = panel.mc_dialogue ? panel.mc_dialogue.toLowerCase() : "";
+function Panel({ panel, isActive, setIsCompleted }) {
+  const dialogue = panel.mc_dialogue.toLowerCase();
 
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  let inputRef = useRef(null);
-  let charRefs = useRef([]);
+  const inputRef = useRef(null);
+  const charRefs = useRef([]);
 
   useEffect(() => {
-    if (inputRef && inputRef.current) {
-      inputRef.current.focus();
+    if (isActive && inputRef.current) {
+      inputRef.current.focus(); // Focus input only when active
     }
-    setCorrectWrong(Array(charRefs.current.length).fill(""));
+    setCorrectWrong(Array(dialogue.length).fill("")); // Reset the correct/wrong states
 
-    const handleSpacebar = (e) => {
-      if (e.code === "Space" && !dialogue) {
-        e.preventDefault();
-        setIsCompleted(true);
-      }
-    };
+    // const handleSpacebar = (e) => {
+    //   if (e.code === "Space" && !dialogue) {
+    //     e.preventDefault();
+    //     setIsCompleted(true);
+    //   }
+    // };
 
-    window.addEventListener("keydown", handleSpacebar);
+    // window.addEventListener("keydown", handleSpacebar);
 
-    return () => {
-      window.removeEventListener("keydown", handleSpacebar);
-    };
-  }, [dialogue, setIsCompleted]);
+    // return () => {
+    //   window.removeEventListener("keydown", handleSpacebar);
+    // };
+  }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
     setCharIndex(0);
-    setCorrectWrong(Array(charRefs.current.length).fill(""));
+    setCorrectWrong(Array(dialogue.length).fill(""));
     setIsTyping(false);
-    if (inputRef) {
+    if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
   const handleInputChange = (e) => {
-    const characters = charRefs.current;
-    let typedChar = e.target.value.toLowerCase().slice(-1);
+    const typedChar = e.target.value.toLowerCase().slice(-1);
 
-    if (charIndex < characters.length) {
+    if (charIndex < dialogue.length) {
       if (!isTyping) {
         setIsTyping(true);
       }
 
-      setCharIndex(charIndex + 1);
       if (typedChar === dialogue[charIndex]) {
+        setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
       } else {
-        // Reset to beginning if incorrect
-        resetDialogue();
+        resetDialogue(); // Reset if incorrect
       }
 
-      // Typing is completed
-      if (charIndex === characters.length - 1) {
+      if (charIndex === dialogue.length - 1 && typedChar === dialogue[charIndex]) {
         setIsTyping(false);
         setIsCompleted(true);
         resetDialogue();
@@ -77,7 +74,7 @@ function Panel({ panel, setIsCompleted }) {
     >
       {dialogue && (
         <div
-          className="dialogue-box"
+          className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
           style={{
             transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",
@@ -91,6 +88,7 @@ function Panel({ panel, setIsCompleted }) {
               onChange={handleInputChange}
               ref={inputRef}
               autoComplete="off"
+              disabled={!isActive} // Disable input if panel is not active
             />
             {dialogue.split("").map((char, index) => (
               <span
@@ -98,6 +96,7 @@ function Panel({ panel, setIsCompleted }) {
                   correctWrong[index]
                 }`}
                 ref={(e) => (charRefs.current[index] = e)}
+                key={index}
               >
                 {char}
               </span>
