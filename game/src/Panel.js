@@ -62,7 +62,8 @@ function Panel({ panel, isActive, setIsCompleted }) {
     >
       {dialogue && (
         <div
-          className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
+          // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
+          className={`${dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"}`}
           style={{
             transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",
