@@ -1,28 +1,46 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Scene.css";
 
-function Scene({ scene }) {
-  const dialogue1 = scene.gun_dialogues[0].toLowerCase(); // Hardcoded, to change
+function Scene({ scene, setIsCompleted }) {
+  const dialogue = scene.mc_dialogue
+    ? scene.mc_dialogue.toLowerCase()
+    : "";
 
   const [charIndex, setCharIndex] = useState(0);
-  const [dialogueInput, setDialogueInput] = useState(dialogue1);
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   let inputRef = useRef(null);
   let charRefs = useRef([]);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
     setCorrectWrong(Array(charRefs.current.length).fill(""));
-  }, []);
+
+    const handleSpacebar = (e) => {
+      if (e.code === "Space" && !dialogue) {
+        e.preventDefault();
+        setIsCompleted(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleSpacebar);
+
+    return () => {
+      window.removeEventListener("keydown", handleSpacebar);
+    };
+
+  }, [dialogue, setIsCompleted]);
 
   const resetDialogue = () => {
     setCharIndex(0);
     setCorrectWrong(Array(charRefs.current.length).fill(""));
     setIsTyping(false);
-    inputRef.current.focus();
-  }
-
+    if (inputRef) {
+      inputRef.current.focus();
+    }
+  };
 
   const handleInputChange = (e) => {
     const characters = charRefs.current;
@@ -34,22 +52,19 @@ function Scene({ scene }) {
         setIsTyping(true);
       }
 
-      console.log("characters", characters);
-      console.log("currentChar", currentChar);
-      console.log("typedChar", typedChar);
-      console.log("dialogue text", dialogue1[charIndex]);
-
       setCharIndex(charIndex + 1);
-      if (typedChar === dialogue1[charIndex]) {
+      if (typedChar === dialogue[charIndex]) {
         correctWrong[charIndex] = " correct ";
       } else {
         // Reset to beginning if incorrect
         resetDialogue();
       }
 
+      // Typing is completed
       if (charIndex === characters.length - 1) {
         setIsTyping(false);
-        console.log("end");
+        setIsCompleted(true);
+        resetDialogue();
       }
     } else {
       setIsTyping(false);
@@ -64,33 +79,36 @@ function Scene({ scene }) {
         height: "720px",
       }}
     >
-      <div
-        className="dialogue-box"
-        style={{
-          transform: "translateY(10rem) translateX(2.7rem)",
-          width: "70%",
-        }}
-      >
-        <div className="dialogue">
-          <input
-            className="input-field"
-            id="panel1-input"
-            type="text"
-            onChange={handleInputChange}
-            ref={inputRef}
-          />
-          {dialogueInput.split("").map((char, index) => (
-            <span
-              className={`char ${index === charIndex ? "active" : ""} ${
-                correctWrong[index]
-              }`}
-              ref={(e) => (charRefs.current[index] = e)}
-            >
-              {char}
-            </span>
-          ))}
+      {dialogue && (
+        <div
+          className="dialogue-box"
+          style={{
+            transform: `translateY(${scene.mc_dialogue_y}) translateX(${scene.mc_dialogue_x})`,
+            width: "70%",
+          }}
+        >
+          <div className="dialogue">
+            <input
+              className="input-field"
+              id="panel1-input"
+              type="text"
+              onChange={handleInputChange}
+              ref={inputRef}
+              autoComplete="off"
+            />
+            {dialogue.split("").map((char, index) => (
+              <span
+                className={`char ${index === charIndex ? "active" : ""} ${
+                  correctWrong[index]
+                }`}
+                ref={(e) => (charRefs.current[index] = e)}
+              >
+                {char}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
