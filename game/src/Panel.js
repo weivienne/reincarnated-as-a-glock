@@ -2,9 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
 
 function Panel({ panel, setIsCompleted }) {
-  const dialogue = panel.mc_dialogue
-    ? panel.mc_dialogue.toLowerCase()
-    : "";
+  const dialogue = panel.mc_dialogue ? panel.mc_dialogue.toLowerCase() : "";
 
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
@@ -30,7 +28,6 @@ function Panel({ panel, setIsCompleted }) {
     return () => {
       window.removeEventListener("keydown", handleSpacebar);
     };
-
   }, [dialogue, setIsCompleted]);
 
   const resetDialogue = () => {
@@ -108,6 +105,9 @@ function Panel({ panel, setIsCompleted }) {
           </div>
         </div>
       )}
+      <div className="reset-button">
+        <button onClick={resetDialogue}>Reset</button>
+      </div>
     </div>
   );
 }

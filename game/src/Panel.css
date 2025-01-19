@@ -49,3 +49,30 @@ span.active {
 span.correct {
   color: rgb(73, 234, 73);
 }
+
+.reset-button button {
+  transform: translateY(-13rem) translateX(25rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  outline: none;
+  border-radius: 1rem;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #000000;
+  padding: 1rem;
+}
+
+.reset-button button:hover {
+  color: #000000;
+  background-color: #00e8c9;
+}
+
+.reset-button button:active {
+  color: #ffffff;
+  background-color: #00453c;
+}
