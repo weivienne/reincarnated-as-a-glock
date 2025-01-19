@@ -1,29 +1,29 @@
 .comic-gallery {
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* Ensure panels stretch to fill width */
+  align-items: stretch;
   justify-content: flex-start;
   background-color: #000000;
-  height: 100vh; /* Full viewport height */
-  overflow-y: auto; /* Enable scrolling */
+  height: 100vh;
+  overflow-y: auto;
   scroll-behavior: smooth;
 }
 
 .panel-wrapper {
-  width: 100%; /* Full width */
-  height: 100vh; /* Full viewport height for each panel */
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .panel-wrapper.active {
-  outline: 2px solid #00e8c9; /* Optional visual indicator for active panel */
+  outline: 2px solid #000000;
 }
 
 .panel {
-  width: 100%; /* Ensure panel fills its wrapper */
-  height: 100%; /* Ensure panel fills its wrapper */
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
 }
