@@ -14,20 +14,8 @@ function Panel({ panel, isActive, setIsCompleted }) {
     if (isActive && inputRef.current) {
       inputRef.current.focus(); // Focus input only when active
     }
-    setCorrectWrong(Array(dialogue.length).fill("")); // Reset the correct/wrong states
+    setCorrectWrong(Array(dialogue.length).fill(""));
 
-    // const handleSpacebar = (e) => {
-    //   if (e.code === "Space" && !dialogue) {
-    //     e.preventDefault();
-    //     setIsCompleted(true);
-    //   }
-    // };
-
-    // window.addEventListener("keydown", handleSpacebar);
-
-    // return () => {
-    //   window.removeEventListener("keydown", handleSpacebar);
-    // };
   }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
