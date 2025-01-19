@@ -1,36 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
-import panel1 from "./panels/panel1.png";
-import panel2 from "./panels/panel2.png";
-import Scene from "./Scene";
+import * as Constants from "./constants";
+import Panel from "./Panel";
 
 function Home() {
-  const panels = [
-    {
-      id: 1,
-      background: panel1,
-      gun_dialogues: () => [`Type to start`],
-      other_dialogues: () => [`This is a typing game.`],
-    },
-    {
-      id: 2,
-      background: panel2,
-      gun_dialogues: () => [`This is another test.`],
-      other_dialogues: () => [],
-    },
-  ];
+  const panels = Constants.PANELS;
+
+  const [ isCompleted, setIsCompleted ] = useState(false);
+  const [ currentPanel, setCurrentPanel ] = useState(panels[0]);
+  console.log("currentPanel= ", currentPanel.id);
+
+  useEffect(() => {
+    if (isCompleted) {
+      setCurrentPanel(panels[currentPanel.next_id]);
+      setIsCompleted(false);
+    }
+  }, [isCompleted, currentPanel]);
 
   return (
     <div className="comic-gallery">
-      {panels[0] && (
-        <Scene
-          scene={{
-            ...panels[0],
-            gun_dialogues: panels[0].gun_dialogues(),
-            other_dialogues: panels[0].other_dialogues(),
+        <Panel
+          panel={{
+            ...currentPanel,
+            mc_dialogue: currentPanel.mc_dialogue,
+            other_dialogues: currentPanel.other_dialogues(),
           }}
+          setIsCompleted={setIsCompleted}
         />
-      )}
     </div>
     );
 }
