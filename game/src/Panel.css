@@ -16,10 +16,8 @@
   justify-content: center;
   background-color: #000000;
   max-width: 40rem;
-  height: 10rem;
+  height: 6rem;
   text-align: center;
-  font-size: 1.4rem;
-  padding: 2rem;
 }
 
 .no-dialogue-box {
@@ -28,15 +26,13 @@
   justify-content: center;
   background-color: transparent;
   max-width: 40rem;
-  height: 10rem;
+  height: 6rem;
   text-align: center;
-  font-size: 1.4rem;
-  padding: 2rem;
 }
 
 .dialogue {
   display: inline-block;
-  color: #7c7c7c;
+  color: #a3a3a3;
 }
 
 input.input-field {
@@ -45,12 +41,8 @@ input.input-field {
   position: absolute;
 }
 
-.before-typing {
-  color: gray;
-}
-
 span {
-  font-size: 20px;
+  font-size: 18px;
   user-select: none;
 }
 
@@ -63,7 +55,7 @@ span.correct {
 }
 
 .reset-button button {
-  transform: translateY(-13rem) translateX(25rem);
+  transform: translateY(-4rem) translateX(25rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
