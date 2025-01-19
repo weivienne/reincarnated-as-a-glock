@@ -22,6 +22,18 @@
   padding: 2rem;
 }
 
+.no-dialogue-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+  max-width: 40rem;
+  height: 10rem;
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 2rem;
+}
+
 .dialogue {
   display: inline-block;
   color: #7c7c7c;

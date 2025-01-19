@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
 import * as Constants from "./constants";
 import Panel from "./Panel";
@@ -6,29 +6,44 @@ import Panel from "./Panel";
 function Home() {
   const panels = Constants.PANELS;
 
-  const [ isCompleted, setIsCompleted ] = useState(false);
-  const [ currentPanel, setCurrentPanel ] = useState(panels[0]);
-  console.log("currentPanel= ", currentPanel.id);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
+
+  const panelRefs = useRef([]);
 
   useEffect(() => {
-    if (isCompleted) {
-      setCurrentPanel(panels[currentPanel.next_id]);
+    if (isCompleted && currentPanelIndex < panels.length - 1) {
+      setCurrentPanelIndex(currentPanelIndex + 1);
       setIsCompleted(false);
     }
-  }, [panels, isCompleted, currentPanel]);
+  }, [isCompleted, currentPanelIndex, panels.length]);
+
+  useEffect(() => {
+    if (panelRefs.current[currentPanelIndex]) {
+      panelRefs.current[currentPanelIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [currentPanelIndex]);
 
   return (
     <div className="comic-gallery">
-        <Panel
-          panel={{
-            ...currentPanel,
-            mc_dialogue: currentPanel.mc_dialogue,
-            other_dialogues: currentPanel.other_dialogues(),
-          }}
-          setIsCompleted={setIsCompleted}
-        />
+      {panels.map((panel, index) => (
+        <div
+          key={panel.id}
+          ref={(el) => (panelRefs.current[index] = el)}
+          className={`panel-wrapper ${index === currentPanelIndex ? "active" : ""}`}
+        >
+          <Panel
+            panel={panel}
+            isActive={index === currentPanelIndex}
+            setIsCompleted={setIsCompleted}
+          />
+        </div>
+      ))}
     </div>
-    );
+  );
 }
 
 export default Home;
