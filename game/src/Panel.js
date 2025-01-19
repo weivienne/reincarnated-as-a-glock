@@ -44,7 +44,6 @@ function Panel({ panel, setIsCompleted }) {
 
   const handleInputChange = (e) => {
     const characters = charRefs.current;
-    let currentChar = charRefs.current[charIndex];
     let typedChar = e.target.value.toLowerCase().slice(-1);
 
     if (charIndex < characters.length) {

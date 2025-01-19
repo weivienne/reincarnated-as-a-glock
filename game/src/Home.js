@@ -15,7 +15,7 @@ function Home() {
       setCurrentPanel(panels[currentPanel.next_id]);
       setIsCompleted(false);
     }
-  }, [isCompleted, currentPanel]);
+  }, [panels, isCompleted, currentPanel]);
 
   return (
     <div className="comic-gallery">

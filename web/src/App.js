@@ -4,6 +4,7 @@ function App() {
   return (
     <div className="App">
         <iframe
+          loading="lazy"
           width="1280px"
           height="720px"
           border="none"
