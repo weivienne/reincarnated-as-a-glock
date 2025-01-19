@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import * as Constants from "./constants";
-import Scene from "./Scene";
+import Panel from "./Panel";
 
 function Home() {
   const panels = Constants.PANELS;
@@ -19,8 +19,8 @@ function Home() {
 
   return (
     <div className="comic-gallery">
-        <Scene
-          scene={{
+        <Panel
+          panel={{
             ...currentPanel,
             mc_dialogue: currentPanel.mc_dialogue,
             other_dialogues: currentPanel.other_dialogues(),

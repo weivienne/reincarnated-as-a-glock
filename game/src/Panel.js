@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./Scene.css";
+import "./Panel.css";
 
-function Scene({ scene, setIsCompleted }) {
-  const dialogue = scene.mc_dialogue
-    ? scene.mc_dialogue.toLowerCase()
+function Panel({ panel, setIsCompleted }) {
+  const dialogue = panel.mc_dialogue
+    ? panel.mc_dialogue.toLowerCase()
     : "";
 
   const [charIndex, setCharIndex] = useState(0);
@@ -73,9 +73,9 @@ function Scene({ scene, setIsCompleted }) {
 
   return (
     <div
-      className="scene"
+      className="panel"
       style={{
-        backgroundImage: `url(${scene.background})`,
+        backgroundImage: `url(${panel.background})`,
         height: "720px",
       }}
     >
@@ -83,7 +83,7 @@ function Scene({ scene, setIsCompleted }) {
         <div
           className="dialogue-box"
           style={{
-            transform: `translateY(${scene.mc_dialogue_y}) translateX(${scene.mc_dialogue_x})`,
+            transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",
           }}
         >
@@ -113,4 +113,4 @@ function Scene({ scene, setIsCompleted }) {
   );
 }
 
-export default Scene;
+export default Panel;
