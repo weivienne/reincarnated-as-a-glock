@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
 import monster1 from "./combat/monster1.webm";
 import death from "./combat/death.webm";
+import gameOver from "./panels/game-over.png"
 
 function Panel({ panel, isActive, setIsCompleted }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -10,6 +11,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
+  const [currentBg, setCurrentBg] = useState(panel.background);
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
@@ -21,6 +23,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
   }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
+    setCurrentBg(panel.background);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
     setIsTyping(false);
@@ -65,6 +68,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
     else {
       // TODO: handle game over
       console.log("game over");
+      setCurrentBg(gameOver);
     }
 
   };
@@ -73,7 +77,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
     <div
       className="panel"
       style={{
-        backgroundImage: `url(${panel.background})`,
+        backgroundImage: `url(${currentBg})`,
         height: "720px",
       }}
     >
