@@ -93,9 +93,9 @@ function Panel({ panel, isActive, setIsCompleted }) {
           onEnded={handleOnEnded}
           style={{
             position: "relative",
-            top: "20rem",
-            left: "10rem",
-            width: "10rem",
+            top: "5rem",
+            left: "0rem",
+            width: "30rem",
             // height: "10rem",
             // objectFit: "cover",
             // zIndex: -1,
