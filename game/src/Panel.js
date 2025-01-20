@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
+import monster1 from "./combat/monster1.webm";
+import death from "./combat/death.webm";
 
 function Panel({ panel, isActive, setIsCompleted }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -7,6 +9,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState(monster1);
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
@@ -15,7 +18,6 @@ function Panel({ panel, isActive, setIsCompleted }) {
       inputRef.current.focus(); // Focus input only when active
     }
     setCorrectWrong(Array(dialogue.length).fill(""));
-
   }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
@@ -42,14 +44,29 @@ function Panel({ panel, isActive, setIsCompleted }) {
         resetDialogue(); // Reset if incorrect
       }
 
-      if (charIndex === dialogue.length - 1 && typedChar === dialogue[charIndex]) {
+      if (
+        charIndex === dialogue.length - 1 &&
+        typedChar === dialogue[charIndex]
+      ) {
         setIsTyping(false);
-        setIsCompleted(true);
+        setCurrentVideo(death);
+        // setIsCompleted(true);
         resetDialogue();
       }
     } else {
       setIsTyping(false);
     }
+  };
+
+  const handleOnEnded = (e) => {
+    if (currentVideo === death) {
+      setIsCompleted(true);
+    }
+    else {
+      // TODO: handle game over
+      console.log("game over");
+    }
+
   };
 
   return (
@@ -60,10 +77,34 @@ function Panel({ panel, isActive, setIsCompleted }) {
         height: "720px",
       }}
     >
+      {/* Video for panel2 */}
+      {console.log("panel.id=", panel.id)}
+      {console.log("isActive", isActive)}
+      {panel.id === 0 && isActive && (
+        <video
+          className="panel-video"
+          src={currentVideo}
+          autoPlay
+          muted
+          onEnded={handleOnEnded}
+          style={{
+            position: "relative",
+            top: "20rem",
+            left: "10rem",
+            width: "10rem",
+            // height: "10rem",
+            // objectFit: "cover",
+            // zIndex: -1,
+          }}
+        />
+      )}
+
       {dialogue && (
         <div
           // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
-          className={`${dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"}`}
+          className={`${
+            dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
+          }`}
           style={{
             transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",
