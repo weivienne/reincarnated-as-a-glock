@@ -3,7 +3,7 @@ import "./Panel.css";
 import monster1 from "./combat/monster1.webm";
 import death from "./combat/death.webm";
 import gameOver from "./panels/game-over.png";
-import LoopVideo from "./combat/LoopVideo";
+import EnemyAnimation from "./combat/EnemyAnimation";
 
 function Panel({ panel, isActive, setIsCompleted }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -13,6 +13,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
+
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
@@ -52,9 +53,8 @@ function Panel({ panel, isActive, setIsCompleted }) {
         charIndex === dialogue.length - 1 &&
         typedChar === dialogue[charIndex]
       ) {
-        setIsTyping(false);
-        setCurrentVideo(death);
-        // setIsCompleted(true);
+        panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
+        setIsTyping(false);        
         resetDialogue();
       }
     } else {
@@ -84,7 +84,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
       {console.log("panel.id=", panel.id)}
       {console.log("isActive", isActive)}
       {panel.id === 0 && isActive && (
-        <LoopVideo src={currentVideo} handleOnEnded={handleOnEnded} />
+        <EnemyAnimation src={currentVideo} handleOnEnded={handleOnEnded} />
       )}
 
       {dialogue && (
