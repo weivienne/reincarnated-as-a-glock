@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
 import monster1 from "./combat/monster1.webm";
 import death from "./combat/death.webm";
-import gameOver from "./panels/game-over.png"
+import gameOver from "./panels/game-over.png";
+import LoopVideo from "./combat/LoopVideo";
 
 function Panel({ panel, isActive, setIsCompleted }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -64,13 +65,11 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const handleOnEnded = (e) => {
     if (currentVideo === death) {
       setIsCompleted(true);
-    }
-    else {
+    } else {
       // TODO: handle game over
       console.log("game over");
       setCurrentBg(gameOver);
     }
-
   };
 
   return (
@@ -85,22 +84,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
       {console.log("panel.id=", panel.id)}
       {console.log("isActive", isActive)}
       {panel.id === 0 && isActive && (
-        <video
-          className="panel-video"
-          src={currentVideo}
-          autoPlay
-          muted
-          onEnded={handleOnEnded}
-          style={{
-            position: "relative",
-            top: "5rem",
-            left: "0rem",
-            width: "30rem",
-            // height: "10rem",
-            // objectFit: "cover",
-            // zIndex: -1,
-          }}
-        />
+        <LoopVideo src={currentVideo} handleOnEnded={handleOnEnded} />
       )}
 
       {dialogue && (
