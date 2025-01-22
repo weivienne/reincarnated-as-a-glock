@@ -13,7 +13,10 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
+  const [mistakeCount, setMistakeCount] = useState(0);
 
+  console.log("# of Mistakes: ", mistakeCount);
+ 
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
@@ -46,6 +49,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
       } else {
+        setMistakeCount(mistakeCount + 1);
         resetDialogue(); // Reset if incorrect
       }
 
@@ -97,6 +101,8 @@ function Panel({ panel, isActive, setIsCompleted }) {
           inputRef={inputRef}
           charRefs={charRefs}
           isActive={isActive}
+          mistakeCount={mistakeCount}
+          setMistakeCount={setMistakeCount}
         />
       )}
 
@@ -115,6 +121,8 @@ function Panel({ panel, isActive, setIsCompleted }) {
           inputRef={inputRef}
           charRefs={charRefs}
           isActive={isActive}
+          mistakeCount={mistakeCount}
+          setMistakeCount={setMistakeCount}
         />
       )}
 

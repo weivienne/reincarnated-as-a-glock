@@ -15,6 +15,8 @@ function EnemyAnimation({
   inputRef,
   charRefs,
   isActive,
+  mistakeCount,
+  setMistakeCount,
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -77,6 +79,7 @@ function EnemyAnimation({
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
       } else {
+        setMistakeCount(mistakeCount + 1);
         resetDialogue(); // Reset if incorrect
       }
 
