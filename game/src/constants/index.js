@@ -19,13 +19,14 @@ import panel17 from "../panels/panel17.png";
 import panel18 from "../panels/panel18.png";
 
 // Monster animations
-// import monster1 from "../combat/monster1.mp4";
+// import monster1 from "../combat/monster1.webm";
+// import death from "../combat/death.webm";
 
 export const PANELS = [
   {
     id: 0,
     background: panel1,
-    mc_dialogue: "Enemy",
+    mc_dialogue: "Prompt",
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [`This is a typing game.`],
@@ -39,7 +40,7 @@ export const PANELS = [
     mc_dialogue_x: "-2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
-    combat: false,
+    combat: true,
     next_id: 2,
   },
   {

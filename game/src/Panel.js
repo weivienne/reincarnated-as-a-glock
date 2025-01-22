@@ -54,7 +54,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
         typedChar === dialogue[charIndex]
       ) {
         panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
-        setIsTyping(false);        
+        setIsTyping(false);
         resetDialogue();
       }
     } else {
@@ -82,21 +82,39 @@ function Panel({ panel, isActive, setIsCompleted }) {
         height: "720px",
       }}
     >
-      {panel.combat && isActive && (
-        <EnemyAnimation 
-        src={currentVideo} 
-        handleOnEnded={handleOnEnded} 
-        charIndex={charIndex}
-        dialogue={dialogue}
-        isTyping={isTyping}
-        setIsTyping={setIsTyping}
-        setCharIndex={setCharIndex}
-        correctWrong={correctWrong}
-        resetDialogue={resetDialogue}
-        setCurrentVideo={setCurrentVideo}
-        inputRef={inputRef}
-        charRefs={charRefs}
-        isActive={isActive}
+      {panel.id === 0 && isActive && (
+        <EnemyAnimation
+          src={currentVideo}
+          handleOnEnded={handleOnEnded}
+          charIndex={charIndex}
+          dialogue={dialogue}
+          isTyping={isTyping}
+          setIsTyping={setIsTyping}
+          setCharIndex={setCharIndex}
+          correctWrong={correctWrong}
+          resetDialogue={resetDialogue}
+          setCurrentVideo={setCurrentVideo}
+          inputRef={inputRef}
+          charRefs={charRefs}
+          isActive={isActive}
+        />
+      )}
+
+      {panel.id === 1 && isActive && (
+        <EnemyAnimation
+          src={currentVideo}
+          handleOnEnded={handleOnEnded}
+          charIndex={charIndex}
+          dialogue={dialogue}
+          isTyping={isTyping}
+          setIsTyping={setIsTyping}
+          setCharIndex={setCharIndex}
+          correctWrong={correctWrong}
+          resetDialogue={resetDialogue}
+          setCurrentVideo={setCurrentVideo}
+          inputRef={inputRef}
+          charRefs={charRefs}
+          isActive={isActive}
         />
       )}
 
