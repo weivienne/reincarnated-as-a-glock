@@ -25,7 +25,7 @@ export const PANELS = [
   {
     id: 0,
     background: panel1,
-    mc_dialogue: " ",
+    mc_dialogue: "Enemy",
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [`This is a typing game.`],

@@ -80,14 +80,25 @@ function Panel({ panel, isActive, setIsCompleted }) {
         height: "720px",
       }}
     >
-      {/* Video for panel2 */}
-      {console.log("panel.id=", panel.id)}
-      {console.log("isActive", isActive)}
-      {panel.id === 0 && isActive && (
-        <EnemyAnimation src={currentVideo} handleOnEnded={handleOnEnded} />
+      {panel.combat && isActive && (
+        <EnemyAnimation 
+        src={currentVideo} 
+        handleOnEnded={handleOnEnded} 
+        charIndex={charIndex}
+        dialogue={dialogue}
+        isTyping={isTyping}
+        setIsTyping={setIsTyping}
+        setCharIndex={setCharIndex}
+        correctWrong={correctWrong}
+        resetDialogue={resetDialogue}
+        setCurrentVideo={setCurrentVideo}
+        inputRef={inputRef}
+        charRefs={charRefs}
+        isActive={isActive}
+        />
       )}
 
-      {dialogue && (
+      {!panel.combat && dialogue && (
         <div
           // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
           className={`${

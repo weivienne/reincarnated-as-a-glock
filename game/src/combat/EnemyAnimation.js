@@ -1,6 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
+import death from "../combat/death.webm";
 
-function EnemyAnimation({ src, handleOnEnded }) {
+function EnemyAnimation({
+  src,
+  handleOnEnded,
+  charIndex,
+  dialogue,
+  isTyping,
+  setIsTyping,
+  setCharIndex,
+  correctWrong,
+  resetDialogue,
+  setCurrentVideo,
+  inputRef,
+  charRefs,
+  isActive,
+}) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -8,7 +23,16 @@ function EnemyAnimation({ src, handleOnEnded }) {
   const [fixedScale, setFixedScale] = useState(null); // Fixed scale for death animation
 
   useEffect(() => {
-    let timer;
+    setTimeout(() => {
+        handleOnEnded();
+        setIsPlaying(false);
+        setIsVisible(false);
+        setScale(1);
+      }, 3000); // Trigger after 3 seconds
+    
+  }, [handleOnEnded]);
+
+  useEffect(() => {
     let scaleInterval;
 
     if (isPlaying) {
@@ -16,26 +40,45 @@ function EnemyAnimation({ src, handleOnEnded }) {
         setScale((prevScale) => Math.min(prevScale + 0.02, 2)); // Grow to a maximum of 2x size
       }, 100);
 
-      timer = setTimeout(() => {
-        handleOnEnded();
-        setIsPlaying(false);
-        setIsVisible(false);
+      return () => {
         clearInterval(scaleInterval);
-        setScale(1);
-      }, 3000); // Trigger after 3 seconds
+      };
     }
-
-    return () => {
-      clearTimeout(timer); // Clear timeout on cleanup
-      clearInterval(scaleInterval);
-    };
-  }, [isPlaying, handleOnEnded]);
+  }, [isPlaying]);
 
   const handlePlay = () => {
     setIsPlaying(true);
     setIsVisible(true);
     if (videoRef.current) {
       videoRef.current.play();
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const typedChar = e.target.value.toLowerCase().slice(-1);
+
+    if (charIndex < dialogue.length) {
+      if (!isTyping) {
+        setIsTyping(true);
+      }
+
+      if (typedChar === dialogue[charIndex]) {
+        setCharIndex(charIndex + 1);
+        correctWrong[charIndex] = " correct ";
+      } else {
+        resetDialogue(); // Reset if incorrect
+      }
+
+      if (
+        charIndex === dialogue.length - 1 &&
+        typedChar === dialogue[charIndex]
+      ) {
+        setCurrentVideo(death);
+        setIsTyping(false);
+        resetDialogue();
+      }
+    } else {
+      setIsTyping(false);
     }
   };
 
@@ -90,24 +133,61 @@ function EnemyAnimation({ src, handleOnEnded }) {
           }}
         >
           {isVisible && (
-            <video
-              className="panel-video"
-              ref={videoRef}
-              src={src}
-              loop // Keep looping for other videos
-              muted
-              autoPlay
-              onPlay={handlePlay}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: `translate(-50%, -50%) scale(${scale})`,
-                transformOrigin: "center",
-                width: "500px", // Base width for scaling
-                height: "auto", // Maintain aspect ratio
-              }}
-            />
+            <>
+              <video
+                className="panel-video"
+                ref={videoRef}
+                src={src}
+                loop // Keep looping for other videos
+                muted
+                autoPlay
+                onPlay={handlePlay}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: `translate(-50%, -50%) scale(${scale})`,
+                  transformOrigin: "center",
+                  width: "500px", // Base width for scaling
+                  height: "auto", // Maintain aspect ratio
+                }}
+              />
+              {/* Text that follows the enemy */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: `translate(-50%, -50%) scale(${scale})`, // Same scale as the video
+                  transformOrigin: "center",
+                  color: "white", // Text color
+                  fontSize: "20px", // Adjust text size
+                  fontWeight: "bold", // Make the text bold
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", // Optional shadow for better visibility
+                }}
+              >
+                <input
+                  className="input-field"
+                  id="panel1-input"
+                  type="text"
+                  onChange={handleInputChange}
+                  ref={inputRef}
+                  autoComplete="off"
+                  disabled={!isActive} // Disable input if panel is not active
+                />
+                {dialogue.split("").map((char, index) => (
+                  <span
+                    className={`char ${index === charIndex ? "active" : ""} ${
+                      correctWrong[index]
+                    }`}
+                    ref={(e) => (charRefs.current[index] = e)}
+                    key={index}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </div>
+            </>
           )}
         </div>
       )}
