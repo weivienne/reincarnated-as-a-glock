@@ -97,27 +97,6 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         <GameOver />
       )}
 
-      {panel.id === 0 && isActive && (
-        <EnemyAnimation
-          src={currentVideo}
-          handleOnEnded={handleOnEnded}
-          charIndex={charIndex}
-          dialogue={dialogue}
-          isTyping={isTyping}
-          setIsTyping={setIsTyping}
-          setCharIndex={setCharIndex}
-          correctWrong={correctWrong}
-          resetDialogue={resetDialogue}
-          setCurrentVideo={setCurrentVideo}
-          inputRef={inputRef}
-          charRefs={charRefs}
-          isActive={isActive}
-          mistakeCount={mistakeCount}
-          setMistakeCount={setMistakeCount}
-          setIsGameOver={setIsGameOver}
-        />
-      )}
-
       {panel.id === 1 && isActive && (
         <EnemyAnimation
           src={currentVideo}

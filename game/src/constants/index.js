@@ -26,11 +26,11 @@ export const PANELS = [
   {
     id: 0,
     background: panel1,
-    mc_dialogue: "Prompt",
-    mc_dialogue_x: "2.7rem",
-    mc_dialogue_y: "10rem",
+    mc_dialogue: "type to start",
+    mc_dialogue_x: "7.5rem",
+    mc_dialogue_y: "30rem",
     other_dialogues: () => [`This is a typing game.`],
-    combat: true,
+    combat: false,
     next_id: 1,
   },
   {
