@@ -1,8 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PlayerStats from "./PlayerStats";
 import "./GameOver.css";
 
 function GameOver() {
+  const handleKeyDown = (event) => {
+    if (event.key === ' ') { 
+      window.location.reload();
+    }
+  };
+  
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+  
+    // Cleanup the event listener on unmount
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className="game-over-container">
       <div className="game-over">
@@ -11,7 +24,7 @@ function GameOver() {
       <div id="container">
         <div id="menu">
           <h1>Player Stats</h1>
-          <hr class="rule" />
+          <hr className="rule" />
           <div id="stats">
             <table>
               <tr>
