@@ -5,6 +5,7 @@ import death from "./combat/death.webm";
 import gameOver from "./panels/game-over.png";
 import EnemyAnimation from "./combat/EnemyAnimation";
 import PlayerStats from "./components/PlayerStats";
+import GameOver from "./components/GameOver";
 
 function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -88,15 +89,12 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         height: "720px",
       }}
     >
-      <div className="reset-button">
+      {!isGameOver && (<div className="reset-button">
         <button onClick={resetDialogue}>Reset</button>
-      </div>
+      </div>)}
 
       {isGameOver && (
-        <div className="player-stats">
-          <div>Player Stats</div>
-          {`Total mistakes: ${PlayerStats.totalMistakes}`}
-        </div>
+        <GameOver />
       )}
 
       {panel.id === 0 && isActive && (
