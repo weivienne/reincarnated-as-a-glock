@@ -1,0 +1,133 @@
+@font-face {
+  font-family: 'VivComicHandwriting-Regular';
+  src: url('../fonts/VivComicHandwriting-Regular.ttf') format('truetype');
+}
+
+.game-over-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.game-over {
+  color: #fff;
+  font-size: 3em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+ 
+ #container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+ }
+ 
+ #menu {
+  width: 400px;
+  height: 350px;
+  margin: auto;
+  background-color: #da4a4a;
+  color: #fff;
+  padding: 1em;
+  position: relative;
+  border-radius: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+ }
+ 
+ #menu h1 {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 10px auto;
+ }
+ 
+ .rule {
+  width: 75%;
+  border: 1px solid #680d0d;
+  margin-bottom: 15px;
+ }
+ 
+ #menu table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+ }
+ 
+ #controls {
+  padding-right: 1.6em;
+ }
+ 
+ .action {
+  border-bottom: 1px dashed #680d0d;
+ }
+ 
+ .player {
+  border-right: 1px dashed #680d0d;
+ }
+ 
+ 
+ #menu table td, #menu table th {
+  padding: 1em;
+  text-align: center;
+ }
+ 
+ 
+ #menu p {
+  margin-top: 40px;
+  text-align: center;
+  animation-name: fade;
+  animation-duration: 0.8s; 
+  animation-timing-function: linear; 
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+  animation-play-state: running; 
+  color: #f7d1d1;
+  opacity: 1;
+ }
+ 
+ .hide {
+  animation-name: fade;
+  animation-duration: 0.3s; 
+  animation-timing-function: linear; 
+  animation-delay: 0;
+  animation-direction: none;
+  animation-iteration-count: none;
+  animation-fill-mode: forwards;
+  animation-play-state: running; 
+ }
+ 
+ @keyframes fade {
+  0% {
+   opacity: 1;
+  }
+  100% {
+   opacity: 0;
+  }
+ }
+ 
+ /* Added stats table styles */
+ 
+ #stats table {
+  width: 260px;
+ }
+ #stats table tr {
+  border-bottom: 1px dotted black;
+ }
+ #stats table tr td {
+  font-size: 1.3em;
+ }
+ 
+ #stats table tr th {
+  text-align: left;
+  font-size: 1em;
+  border-right: 1px dotted black;
+ }
+ 
+ #stats table tr:last-child {
+  border-bottom: none;
+ }
+ 

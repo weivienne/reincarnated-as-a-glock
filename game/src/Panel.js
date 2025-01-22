@@ -4,8 +4,10 @@ import monster1 from "./combat/monster1.webm";
 import death from "./combat/death.webm";
 import gameOver from "./panels/game-over.png";
 import EnemyAnimation from "./combat/EnemyAnimation";
+import PlayerStats from "./components/PlayerStats";
+import GameOver from "./components/GameOver";
 
-function Panel({ panel, isActive, setIsCompleted }) {
+function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
 
   const [charIndex, setCharIndex] = useState(0);
@@ -13,6 +15,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
+  const [mistakeCount, setMistakeCount] = useState(1); // Track for user
 
   const inputRef = useRef(null);
   const charRefs = useRef([]);
@@ -46,6 +49,9 @@ function Panel({ panel, isActive, setIsCompleted }) {
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
       } else {
+        setMistakeCount(mistakeCount + 1);
+        console.log("# of Mistakes: ", mistakeCount);
+        PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
         resetDialogue(); // Reset if incorrect
       }
 
@@ -71,6 +77,7 @@ function Panel({ panel, isActive, setIsCompleted }) {
       // TODO: handle game over
       console.log("game over");
       setCurrentBg(gameOver);
+      setIsGameOver(true);
     }
   };
 
@@ -82,6 +89,14 @@ function Panel({ panel, isActive, setIsCompleted }) {
         height: "720px",
       }}
     >
+      {!isGameOver && (<div className="reset-button">
+        <button onClick={resetDialogue}>Reset</button>
+      </div>)}
+
+      {isGameOver && (
+        <GameOver />
+      )}
+
       {panel.id === 0 && isActive && (
         <EnemyAnimation
           src={currentVideo}
@@ -97,6 +112,9 @@ function Panel({ panel, isActive, setIsCompleted }) {
           inputRef={inputRef}
           charRefs={charRefs}
           isActive={isActive}
+          mistakeCount={mistakeCount}
+          setMistakeCount={setMistakeCount}
+          setIsGameOver={setIsGameOver}
         />
       )}
 
@@ -115,6 +133,30 @@ function Panel({ panel, isActive, setIsCompleted }) {
           inputRef={inputRef}
           charRefs={charRefs}
           isActive={isActive}
+          mistakeCount={mistakeCount}
+          setMistakeCount={setMistakeCount}
+          setIsGameOver={setIsGameOver}
+        />
+      )}
+
+      {panel.id === 3 && isActive && (
+        <EnemyAnimation
+          src={currentVideo}
+          handleOnEnded={handleOnEnded}
+          charIndex={charIndex}
+          dialogue={dialogue}
+          isTyping={isTyping}
+          setIsTyping={setIsTyping}
+          setCharIndex={setCharIndex}
+          correctWrong={correctWrong}
+          resetDialogue={resetDialogue}
+          setCurrentVideo={setCurrentVideo}
+          inputRef={inputRef}
+          charRefs={charRefs}
+          isActive={isActive}
+          mistakeCount={mistakeCount}
+          setMistakeCount={setMistakeCount}
+          setIsGameOver={setIsGameOver}
         />
       )}
 
@@ -153,9 +195,6 @@ function Panel({ panel, isActive, setIsCompleted }) {
           </div>
         </div>
       )}
-      <div className="reset-button">
-        <button onClick={resetDialogue}>Reset</button>
-      </div>
     </div>
   );
 }

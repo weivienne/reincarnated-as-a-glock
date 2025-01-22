@@ -57,7 +57,9 @@ span.correct {
 }
 
 .reset-button button {
-  transform: translateY(-4rem) translateX(25rem);
+  position: relative;
+  top: 1rem;
+  left: 25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

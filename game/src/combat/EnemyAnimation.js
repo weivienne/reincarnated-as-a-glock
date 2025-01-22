@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import death from "../combat/death.webm";
+import PlayerStats from "../components/PlayerStats";
 
 function EnemyAnimation({
   src,
@@ -15,6 +16,8 @@ function EnemyAnimation({
   inputRef,
   charRefs,
   isActive,
+  mistakeCount,
+  setMistakeCount,
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -77,6 +80,9 @@ function EnemyAnimation({
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
       } else {
+        setMistakeCount(mistakeCount + 1);
+        console.log("Mistake count in enemy: ", mistakeCount);
+        PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
         resetDialogue(); // Reset if incorrect
       }
 
