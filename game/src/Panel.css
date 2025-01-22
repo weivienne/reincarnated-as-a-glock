@@ -56,8 +56,18 @@ span.correct {
   color: rgb(73, 234, 73);
 }
 
+.player-stats {
+  position: relative;
+  top: 35rem;
+  color: white;
+  font-size: 25px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .reset-button button {
-  transform: translateY(-4rem) translateX(25rem);
+  position: relative;
+  top: 1rem;
+  left: 25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

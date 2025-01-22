@@ -36,7 +36,7 @@ export const PANELS = [
   {
     id: 1,
     background: panel2,
-    mc_dialogue: "Test.",
+    mc_dialogue: " ",
     mc_dialogue_x: "-2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
@@ -46,7 +46,7 @@ export const PANELS = [
   {
     id: 2,
     background: panel3,
-    mc_dialogue: " ",
+    mc_dialogue: "Test",
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
@@ -60,7 +60,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
-    combat: false,
+    combat: true,
     next_id: 4,
   },
   {
