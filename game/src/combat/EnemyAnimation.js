@@ -23,14 +23,23 @@ function EnemyAnimation({
   const [fixedScale, setFixedScale] = useState(null); // Fixed scale for death animation
 
   useEffect(() => {
-    setTimeout(() => {
+    let timeoutId;
+  
+    if (isPlaying) {
+      timeoutId = setTimeout(() => {
         handleOnEnded();
         setIsPlaying(false);
         setIsVisible(false);
         setScale(1);
       }, 3000); // Trigger after 3 seconds
-    
-  }, [handleOnEnded]);
+    }
+  
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId); // Cleanup timeout on unmount
+      }
+    };
+  }, [isPlaying]);
 
   useEffect(() => {
     let scaleInterval;
@@ -47,10 +56,12 @@ function EnemyAnimation({
   }, [isPlaying]);
 
   const handlePlay = () => {
-    setIsPlaying(true);
-    setIsVisible(true);
-    if (videoRef.current) {
-      videoRef.current.play();
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setIsVisible(true);
+      if (videoRef.current) {
+        videoRef.current.play();
+      }
     }
   };
 

@@ -63,7 +63,9 @@ function Panel({ panel, isActive, setIsCompleted }) {
   };
 
   const handleOnEnded = (e) => {
+    // console.log("currentVideo=", currentVideo)
     if (currentVideo === death) {
+      console.log("success");
       setIsCompleted(true);
     } else {
       // TODO: handle game over
