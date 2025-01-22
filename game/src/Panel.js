@@ -1,5 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Panel.css";
+import monster1 from "./combat/monster1.webm";
+import death from "./combat/death.webm";
+import gameOver from "./panels/game-over.png";
+import EnemyAnimation from "./combat/EnemyAnimation";
 
 function Panel({ panel, isActive, setIsCompleted }) {
   const dialogue = panel.mc_dialogue.toLowerCase();
@@ -7,6 +11,9 @@ function Panel({ panel, isActive, setIsCompleted }) {
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState(monster1);
+  const [currentBg, setCurrentBg] = useState(panel.background);
+
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
@@ -15,10 +22,10 @@ function Panel({ panel, isActive, setIsCompleted }) {
       inputRef.current.focus(); // Focus input only when active
     }
     setCorrectWrong(Array(dialogue.length).fill(""));
-
   }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
+    setCurrentBg(panel.background);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
     setIsTyping(false);
@@ -42,9 +49,12 @@ function Panel({ panel, isActive, setIsCompleted }) {
         resetDialogue(); // Reset if incorrect
       }
 
-      if (charIndex === dialogue.length - 1 && typedChar === dialogue[charIndex]) {
+      if (
+        charIndex === dialogue.length - 1 &&
+        typedChar === dialogue[charIndex]
+      ) {
+        panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
         setIsTyping(false);
-        setIsCompleted(true);
         resetDialogue();
       }
     } else {
@@ -52,18 +62,68 @@ function Panel({ panel, isActive, setIsCompleted }) {
     }
   };
 
+  const handleOnEnded = (e) => {
+    // console.log("currentVideo=", currentVideo)
+    if (currentVideo === death) {
+      console.log("success");
+      setIsCompleted(true);
+    } else {
+      // TODO: handle game over
+      console.log("game over");
+      setCurrentBg(gameOver);
+    }
+  };
+
   return (
     <div
       className="panel"
       style={{
-        backgroundImage: `url(${panel.background})`,
+        backgroundImage: `url(${currentBg})`,
         height: "720px",
       }}
     >
-      {dialogue && (
+      {panel.id === 0 && isActive && (
+        <EnemyAnimation
+          src={currentVideo}
+          handleOnEnded={handleOnEnded}
+          charIndex={charIndex}
+          dialogue={dialogue}
+          isTyping={isTyping}
+          setIsTyping={setIsTyping}
+          setCharIndex={setCharIndex}
+          correctWrong={correctWrong}
+          resetDialogue={resetDialogue}
+          setCurrentVideo={setCurrentVideo}
+          inputRef={inputRef}
+          charRefs={charRefs}
+          isActive={isActive}
+        />
+      )}
+
+      {panel.id === 1 && isActive && (
+        <EnemyAnimation
+          src={currentVideo}
+          handleOnEnded={handleOnEnded}
+          charIndex={charIndex}
+          dialogue={dialogue}
+          isTyping={isTyping}
+          setIsTyping={setIsTyping}
+          setCharIndex={setCharIndex}
+          correctWrong={correctWrong}
+          resetDialogue={resetDialogue}
+          setCurrentVideo={setCurrentVideo}
+          inputRef={inputRef}
+          charRefs={charRefs}
+          isActive={isActive}
+        />
+      )}
+
+      {!panel.combat && dialogue && (
         <div
           // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
-          className={`${dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"}`}
+          className={`${
+            dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
+          }`}
           style={{
             transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",

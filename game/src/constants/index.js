@@ -1,3 +1,4 @@
+// BG panels
 import panel1 from "../panels/panel1.png";
 import panel2 from "../panels/panel2.png";
 import panel3 from "../panels/panel3.png";
@@ -17,14 +18,19 @@ import panel16 from "../panels/panel16.png";
 import panel17 from "../panels/panel17.png";
 import panel18 from "../panels/panel18.png";
 
+// Monster animations
+// import monster1 from "../combat/monster1.webm";
+// import death from "../combat/death.webm";
+
 export const PANELS = [
   {
     id: 0,
     background: panel1,
-    mc_dialogue: "Type to start",
+    mc_dialogue: "Prompt",
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [`This is a typing game.`],
+    combat: true,
     next_id: 1,
   },
   {
@@ -34,6 +40,7 @@ export const PANELS = [
     mc_dialogue_x: "-2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: true,
     next_id: 2,
   },
   {
@@ -43,6 +50,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 3,
   },
   {
@@ -52,6 +60,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 4,
   },
   {
@@ -61,6 +70,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 5,
   },
   {
@@ -70,6 +80,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 6,
   },
 
@@ -80,6 +91,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [`This is a typing game.`],
+    combat: false,
     next_id: 7,
   },
   {
@@ -89,6 +101,7 @@ export const PANELS = [
     mc_dialogue_x: "-2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 8,
   },
   {
@@ -98,6 +111,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 9,
   },
   {
@@ -107,6 +121,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 10,
   },
   {
@@ -116,6 +131,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 11,
   },
   {
@@ -125,6 +141,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 12,
   },
   {
@@ -134,6 +151,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [`This is a typing game.`],
+    combat: false,
     next_id: 13,
   },
   {
@@ -143,6 +161,7 @@ export const PANELS = [
     mc_dialogue_x: "-2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 14,
   },
   {
@@ -152,6 +171,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 15,
   },
   {
@@ -161,6 +181,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 16,
   },
   {
@@ -170,6 +191,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 17,
   },
   {
@@ -179,6 +201,7 @@ export const PANELS = [
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
     other_dialogues: () => [],
+    combat: false,
     next_id: 18,
   },
 ];
