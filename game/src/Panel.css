@@ -35,6 +35,7 @@
 .dialogue {
   display: inline-block;
   color: #a3a3a3;
+  max-width: 16rem;
 }
 
 input.input-field {
