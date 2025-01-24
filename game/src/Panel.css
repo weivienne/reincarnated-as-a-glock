@@ -34,7 +34,6 @@
 
 .dialogue {
   display: inline-block;
-  color: #80cc8f;
   max-width: 13rem;
   animation-name: light-fade;
   animation-duration: 0.5s; 

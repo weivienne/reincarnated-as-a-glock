@@ -51,7 +51,12 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
 
       if (typedChar === dialogue[charIndex]) {
         setCharIndex(charIndex + 1);
-        correctWrong[charIndex] = " correct ";
+        // correctWrong[charIndex] = " correct ";
+        const updatedCorrectWrong = [...correctWrong];
+        updatedCorrectWrong[charIndex] = {
+          color: panel.color_after,
+        };
+        setCorrectWrong(updatedCorrectWrong);
       } else {
         setMistakeCount(mistakeCount + 1);
         console.log("# of Mistakes: ", mistakeCount);
@@ -138,6 +143,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
             style={{
               transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x}) rotate(${panel.rotate})`,
               fontSize: `${panel.size}`,
+              color: `${panel.color_before}`
             }}
           >
             <input
@@ -151,9 +157,10 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
             />
             {dialogue.split("").map((char, index) => (
               <span
-                className={`char ${index === charIndex ? "active" : ""} ${
-                  correctWrong[index]
-                }`}
+                className={`char ${index === charIndex ? "active" : ""}`}
+                style={{
+                  color: correctWrong[index]?.color || panel.color_before,
+                }}
                 ref={(e) => (charRefs.current[index] = e)}
                 key={index}
                 onClick={() => {resetDialogue()}}
