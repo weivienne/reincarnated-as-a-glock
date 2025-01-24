@@ -141,16 +141,21 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
 
       {!panel.combat && dialogue && (
         <div
-          // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
-          className={`${
-            dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
-          }`}
+          // className={`${"no-dialogue-box"
+            // dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
+          // }`}
+          className="no-dialogue-box"
           style={{
             transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
             width: "70%",
           }}
         >
-          <div className="dialogue">
+          <div className="dialogue"
+            style={{
+              transform: `rotate(${panel.rotate})`,
+              fontSize: `${panel.size}`,
+            }}
+          >
             <input
               className="input-field"
               id="panel1-input"
