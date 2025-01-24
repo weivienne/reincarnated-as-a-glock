@@ -6,6 +6,7 @@ import gameOver from "./panels/game-over.png";
 import EnemyAnimation from "./combat/EnemyAnimation";
 import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
+import Panel13 from "./specialPanels/Panel13";
 
 function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   const [dialogueIndex, setDialogueIndex] = useState(0);
@@ -127,23 +128,31 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         />
       )} */}
 
+      <Panel13 
+        panel={panel}
+        isActive={isActive}
+        dialogueIndex={dialogueIndex}
+      />
+
       {!panel.combat && dialogue && (
         <div
           // className={`${"no-dialogue-box"
           // dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
           // }`}
           className="no-dialogue-box"
-          style={{
-            // transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
-            // width: "70%",
-          }}
+          style={
+            {
+              // transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
+              // width: "70%",
+            }
+          }
         >
           <div
             className="dialogue"
             style={{
               transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x}) rotate(${panel.rotate})`,
               fontSize: `${panel.size}`,
-              color: `${panel.color_before}`
+              color: `${panel.color_before}`,
             }}
           >
             <input
@@ -163,7 +172,9 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
                 }}
                 ref={(e) => (charRefs.current[index] = e)}
                 key={index}
-                onClick={() => {resetDialogue()}}
+                onClick={() => {
+                  resetDialogue();
+                }}
               >
                 {char}
               </span>

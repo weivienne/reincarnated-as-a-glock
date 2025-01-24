@@ -1,0 +1,60 @@
+.screech-disappear {
+  animation: shake 0.2s linear 5, disappear 200ms 500ms forwards;
+}
+
+.ratatat {
+  animation: jump 0.2s;
+  animation-iteration-count: infinite;
+}
+
+.click {
+  animation: jump 0.5s linear 2;
+}
+
+.clang {
+  animation: clang 0.5s forwards;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-3deg); }
+  20% { transform: translate(-3px, 0px) rotate(3deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(3deg); }
+  50% { transform: translate(-1px, 2px) rotate(-3deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-3deg); }
+  80% { transform: translate(-1px, -1px) rotate(3deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-3deg); }
+}
+
+@keyframes jump {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(5px) }
+  50% { transform: translateY(-5px) }
+  75% { transform: translateY(5px) }
+  100% { transform: translateY(0) }
+}
+
+@keyframes click {
+  0% { transform: translateY(0); }
+  1% { transform: translateY(-80px); }
+  5% { transform: translateY(0); }
+  70% { transform: translateY(0); }
+  95% { transform: translateY(0); }
+  99% { transform: translateY(-80px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes clang {
+  0% { font-size: 100%;}
+  30% {font-size: 120%;}
+  50% {font-size: 100%;}
+  100% {font-size: 100%;}
+}
+
+@keyframes disappear {
+  0% { opacity: 1;}
+  100% {opacity: 0; visibility: hidden;}
+}
