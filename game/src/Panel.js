@@ -8,14 +8,18 @@ import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 
 function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
-  const dialogue = panel.mc_dialogue.toLowerCase();
-
+  const [dialogueIndex, setDialogueIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(1); // Track for user
+
+  const dialogue =
+    typeof panel.mc_dialogue?.[dialogueIndex] === "string"
+      ? panel.mc_dialogue[dialogueIndex]
+      : "";
 
   const inputRef = useRef(null);
   const charRefs = useRef([]);
@@ -59,8 +63,14 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         charIndex === dialogue.length - 1 &&
         typedChar === dialogue[charIndex]
       ) {
-        panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
-        setIsTyping(false);
+        if (dialogueIndex < panel.mc_dialogue.length - 1) {
+          // Move to the next dialogue in the list
+          setDialogueIndex(dialogueIndex + 1);
+        } else {
+          // All dialogues completed
+          panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
+          setIsTyping(false);
+        }
         resetDialogue();
       }
     } else {
@@ -89,15 +99,9 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         height: "720px",
       }}
     >
-      {!isGameOver && (<div className="reset-button">
-        <button onClick={resetDialogue}>Reset</button>
-      </div>)}
+      {isGameOver && <GameOver />}
 
-      {isGameOver && (
-        <GameOver />
-      )}
-
-      {panel.id === 1 && isActive && (
+      {/* {panel.id === 1 && isActive && (
         <EnemyAnimation
           src={currentVideo}
           handleOnEnded={handleOnEnded}
@@ -116,43 +120,23 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
           setMistakeCount={setMistakeCount}
           setIsGameOver={setIsGameOver}
         />
-      )}
-
-      {panel.id === 3 && isActive && (
-        <EnemyAnimation
-          src={currentVideo}
-          handleOnEnded={handleOnEnded}
-          charIndex={charIndex}
-          dialogue={dialogue}
-          isTyping={isTyping}
-          setIsTyping={setIsTyping}
-          setCharIndex={setCharIndex}
-          correctWrong={correctWrong}
-          resetDialogue={resetDialogue}
-          setCurrentVideo={setCurrentVideo}
-          inputRef={inputRef}
-          charRefs={charRefs}
-          isActive={isActive}
-          mistakeCount={mistakeCount}
-          setMistakeCount={setMistakeCount}
-          setIsGameOver={setIsGameOver}
-        />
-      )}
+      )} */}
 
       {!panel.combat && dialogue && (
         <div
           // className={`${"no-dialogue-box"
-            // dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
+          // dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
           // }`}
           className="no-dialogue-box"
           style={{
-            transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
-            width: "70%",
+            // transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
+            // width: "70%",
           }}
         >
-          <div className="dialogue"
+          <div
+            className="dialogue"
             style={{
-              transform: `rotate(${panel.rotate})`,
+              transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x}) rotate(${panel.rotate})`,
               fontSize: `${panel.size}`,
             }}
           >
@@ -172,6 +156,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
                 }`}
                 ref={(e) => (charRefs.current[index] = e)}
                 key={index}
+                onClick={() => {resetDialogue()}}
               >
                 {char}
               </span>
