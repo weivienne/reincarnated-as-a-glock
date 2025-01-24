@@ -66,12 +66,12 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         if (dialogueIndex < panel.mc_dialogue.length - 1) {
           // Move to the next dialogue in the list
           setDialogueIndex(dialogueIndex + 1);
+          resetDialogue();
         } else {
           // All dialogues completed
           panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
           setIsTyping(false);
         }
-        resetDialogue();
       }
     } else {
       setIsTyping(false);
