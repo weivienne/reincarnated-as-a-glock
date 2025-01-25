@@ -15,7 +15,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
-  const [mistakeCount, setMistakeCount] = useState(1); // Track for user
+  const [mistakeCount, setMistakeCount] = useState(0); // Track for user
 
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
@@ -33,6 +33,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   }, [dialogue, isActive, setIsCompleted]);
 
   const resetDialogue = () => {
+    setMistakeCount(0);
     setCurrentBg(panel.background);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
@@ -50,28 +51,34 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         setIsTyping(true);
       }
 
+      const updatedCorrectWrong = [...correctWrong];
       if (typedChar === dialogue[charIndex]) {
-        setCharIndex(charIndex + 1);
+        // setCharIndex(charIndex + 1);
         // correctWrong[charIndex] = " correct ";
-        const updatedCorrectWrong = [...correctWrong];
         updatedCorrectWrong[charIndex] = {
           color: panel.color_after,
         };
-        setCorrectWrong(updatedCorrectWrong);
       } else {
-        setMistakeCount(mistakeCount + 1);
-        console.log("# of Mistakes: ", mistakeCount);
+        setMistakeCount(1);
         PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
-        PlayerStats.longestStreak = 0; // Reset streak
-        resetDialogue(); // Reset if incorrect
+        PlayerStats.longestStreak =
+          PlayerStats.currentStreak > PlayerStats.longestStreak
+            ? PlayerStats.currentStreak
+            : PlayerStats.longestStreak;
+        PlayerStats.currentStreak = 0; // Reset streak
+        // resetDialogue(); // Reset if incorrect
+        updatedCorrectWrong[charIndex] = {
+          color: "#e70303",
+        };
       }
+      setCharIndex(charIndex + 1);
+      setCorrectWrong(updatedCorrectWrong);
 
-      // Last character was typed correctly
-      if (
-        charIndex === dialogue.length - 1 &&
-        typedChar === dialogue[charIndex]
-      ) {
-        PlayerStats.longestStreak = PlayerStats.longestStreak + 1;
+      // Last character was typed
+      if (charIndex === dialogue.length - 1) {
+        if (mistakeCount === 0) {
+          PlayerStats.currentStreak = PlayerStats.currentStreak + 1;
+        }
         if (dialogueIndex < panel.mc_dialogue.length - 1) {
           // Move to the next dialogue in the list
           setDialogueIndex(dialogueIndex + 1);
@@ -131,7 +138,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         />
       )}
 
-      <Panel13 
+      <Panel13
         panel={panel}
         isActive={isActive}
         dialogueIndex={dialogueIndex}
