@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import death from "../combat/death.webm";
 import PlayerStats from "../components/PlayerStats";
+import "./EnemyAnimation.css"
 
 function EnemyAnimation({
   src,
@@ -34,7 +35,7 @@ function EnemyAnimation({
         setIsPlaying(false);
         setIsVisible(false);
         setScale(1);
-      }, 3000); // Trigger after 3 seconds
+      }, 5000); // Trigger after 5 seconds
     }
   
     return () => {
@@ -194,7 +195,7 @@ function EnemyAnimation({
                 />
                 {dialogue.split("").map((char, index) => (
                   <span
-                    className={`char ${index === charIndex ? "active" : ""} ${
+                    className={`char ${index === charIndex ? "enemy-active" : ""} ${
                       correctWrong[index]
                     }`}
                     ref={(e) => (charRefs.current[index] = e)}

@@ -39,7 +39,7 @@ export const PANELS = [
     color_before: GREEN,
     color_after: WHITE,
     other_dialogues: () => [`This is a typing game.`],
-    combat: false,
+    combat: true,
     next_id: 1,
   },
   {
@@ -257,7 +257,7 @@ export const PANELS = [
   {
     id: 15,
     background: panel16,
-    mc_dialogue: ["hates incompetency"],
+    mc_dialogue: ["hates glocks"],
     mc_dialogue_x: "9.6rem",
     mc_dialogue_y: "39.3rem",
     rotate: "0deg",

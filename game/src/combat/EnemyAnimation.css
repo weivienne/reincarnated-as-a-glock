@@ -1,0 +1,7 @@
+span.enemy-active {
+  border-bottom: 3px solid #9d0f0f;
+}
+
+span.correct {
+  color: #ff0000;
+}
