@@ -7,8 +7,8 @@ function Panel13({ panel, isActive, dialogueIndex }) {
         dialogueIndex === 3 && (
           <div
             style={{
-              position: "fixed",
-              transform: "translateY(8rem) translateX(10rem) rotate(20deg)",
+              position: "relative",
+              transform: "translateY(8rem) translateX(5rem) rotate(20deg)",
               color: "white",
               fontSize: "80px",
             }}
@@ -20,8 +20,8 @@ function Panel13({ panel, isActive, dialogueIndex }) {
       {panel.id === 13 && isActive && dialogueIndex === 4 && (
         <div
           style={{
-            position: "fixed",
-            transform: "translateY(22rem) translateX(0rem) rotate(-15deg)",
+            position: "relative",
+            transform: "translateY(15rem) translateX(0rem) rotate(-15deg)",
             color: "white",
             fontSize: "60px",
           }}
@@ -35,8 +35,8 @@ function Panel13({ panel, isActive, dialogueIndex }) {
         dialogueIndex === 5 && (
           <div
             style={{
-              position: "fixed",
-              transform: "translateY(23rem) translateX(0rem) rotate(-15deg)",
+              position: "relative",
+              transform: "translateY(15rem) translateX(-5rem) rotate(-15deg)",
               color: "white",
               fontSize: "50px",
             }}
@@ -48,8 +48,8 @@ function Panel13({ panel, isActive, dialogueIndex }) {
       {panel.id === 13 && isActive && dialogueIndex === 6 && (
         <div
           style={{
-            position: "fixed",
-            transform: "translateY(30rem) translateX(25rem) rotate(0deg)",
+            position: "relative",
+            transform: "translateY(30rem) translateX(5rem) rotate(0deg)",
             color: "white",
             fontSize: "35px",
           }}
@@ -61,8 +61,8 @@ function Panel13({ panel, isActive, dialogueIndex }) {
       {panel.id === 13 && isActive && dialogueIndex === 7 && (
         <div
           style={{
-            position: "fixed",
-            transform: "translateY(30rem) translateX(5rem) rotate(0deg)",
+            position: "relative",
+            transform: "translateY(30rem) translateX(0rem) rotate(0deg)",
             color: "white",
             fontSize: "80px",
           }}
