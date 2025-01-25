@@ -39,7 +39,7 @@ export const PANELS = [
     color_before: GREEN,
     color_after: WHITE,
     other_dialogues: () => [`This is a typing game.`],
-    combat: true,
+    combat: false,
     next_id: 1,
   },
   {
@@ -67,7 +67,7 @@ export const PANELS = [
     color_before: GREEN,
     color_after: BLACK,
     other_dialogues: () => [],
-    combat: false,
+    combat: true,
     next_id: 3,
   },
   {

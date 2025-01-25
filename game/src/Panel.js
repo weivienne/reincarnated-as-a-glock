@@ -62,13 +62,16 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         setMistakeCount(mistakeCount + 1);
         console.log("# of Mistakes: ", mistakeCount);
         PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+        PlayerStats.longestStreak = 0; // Reset streak
         resetDialogue(); // Reset if incorrect
       }
 
+      // Last character was typed correctly
       if (
         charIndex === dialogue.length - 1 &&
         typedChar === dialogue[charIndex]
       ) {
+        PlayerStats.longestStreak = PlayerStats.longestStreak + 1;
         if (dialogueIndex < panel.mc_dialogue.length - 1) {
           // Move to the next dialogue in the list
           setDialogueIndex(dialogueIndex + 1);
@@ -107,7 +110,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
     >
       {isGameOver && <GameOver />}
 
-      {panel.id === 0 && isActive && (
+      {panel.id === 2 && isActive && (
         <EnemyAnimation
           src={currentVideo}
           handleOnEnded={handleOnEnded}

@@ -84,13 +84,16 @@ function EnemyAnimation({
         setMistakeCount(mistakeCount + 1);
         console.log("Mistake count in enemy: ", mistakeCount);
         PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+        PlayerStats.longestStreak = 0; // Reset streak
         resetDialogue(); // Reset if incorrect
       }
 
+      // Last character was typed correctly
       if (
         charIndex === dialogue.length - 1 &&
         typedChar === dialogue[charIndex]
       ) {
+        PlayerStats.longestStreak = PlayerStats.longestStreak + 1;
         setCurrentVideo(death);
         setIsTyping(false);
         resetDialogue();
