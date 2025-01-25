@@ -23,7 +23,7 @@ function EnemyAnimation({
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.25);
   const [fixedScale, setFixedScale] = useState(null); // Fixed scale for death animation
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function EnemyAnimation({
         setIsPlaying(false);
         setIsVisible(false);
         setScale(1);
-      }, 5000); // Trigger after 5 seconds
+      }, 6000); // Trigger after 6 seconds
     }
   
     return () => {
