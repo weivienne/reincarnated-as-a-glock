@@ -10,6 +10,7 @@ function Home() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const panelRefs = useRef([]);
 
@@ -21,6 +22,7 @@ function Home() {
 
   useEffect(() => {
     if (isCompleted && currentPanelIndex < panels.length - 1) {
+      setIsTransitioning(true);
       setCurrentPanelIndex(currentPanelIndex + 1);
       setIsCompleted(false);
     }
@@ -33,6 +35,10 @@ function Home() {
         block: "start",
       });
     }
+
+    // Allow typing again after the transition
+    const timeout = setTimeout(() => setIsTransitioning(false), 500); // Adjust timeout to match transition duration
+    return () => clearTimeout(timeout);
   }, [currentPanelIndex]);
 
   return (
@@ -49,6 +55,7 @@ function Home() {
             setIsCompleted={setIsCompleted}
             setIsGameOver={setIsGameOver}
             isGameOver={isGameOver}
+            isTransitioning={isTransitioning}
           />
         </div>
       ))}

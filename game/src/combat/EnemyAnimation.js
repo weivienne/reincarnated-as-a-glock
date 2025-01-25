@@ -8,8 +8,6 @@ function EnemyAnimation({
   handleOnEnded,
   charIndex,
   dialogue,
-  isTyping,
-  setIsTyping,
   setCharIndex,
   correctWrong,
   resetDialogue,
@@ -19,6 +17,7 @@ function EnemyAnimation({
   isActive,
   mistakeCount,
   setMistakeCount,
+  isTransitioning
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -73,10 +72,6 @@ function EnemyAnimation({
     const typedChar = e.target.value.toLowerCase().slice(-1);
 
     if (charIndex < dialogue.length) {
-      if (!isTyping) {
-        setIsTyping(true);
-      }
-
       if (typedChar === dialogue[charIndex]) {
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
@@ -99,11 +94,8 @@ function EnemyAnimation({
       ) {
         PlayerStats.currentStreak = PlayerStats.currentStreak + 1;
         setCurrentVideo(death);
-        setIsTyping(false);
         resetDialogue();
       }
-    } else {
-      setIsTyping(false);
     }
   };
 

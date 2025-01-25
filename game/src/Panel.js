@@ -8,11 +8,17 @@ import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 import Panel13 from "./specialPanels/Panel13";
 
-function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
+function Panel({
+  panel,
+  isActive,
+  setIsCompleted,
+  setIsGameOver,
+  isGameOver,
+  isTransitioning,
+}) {
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0); // Track for user
@@ -26,18 +32,20 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
   const charRefs = useRef([]);
 
   useEffect(() => {
-    if (isActive && inputRef.current) {
-      inputRef.current.focus(); // Focus input only when active
+    if (isActive && !isTransitioning && inputRef.current) {
+      const focusTimeout = setTimeout(() => {
+        inputRef.current.focus(); // Focus input after a slight delay to ensure rendering is complete
+      }, 100); // Adjust timeout duration if needed
+      return () => clearTimeout(focusTimeout); // Cleanup timeout
     }
     setCorrectWrong(Array(dialogue.length).fill(""));
-  }, [dialogue, isActive, setIsCompleted]);
+  }, [dialogue, isActive, setIsCompleted, isTransitioning]);
 
   const resetDialogue = () => {
     setMistakeCount(0);
     setCurrentBg(panel.background);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
-    setIsTyping(false);
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -47,10 +55,6 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
     const typedChar = e.target.value.toLowerCase().slice(-1);
 
     if (charIndex < dialogue.length) {
-      if (!isTyping) {
-        setIsTyping(true);
-      }
-
       const updatedCorrectWrong = [...correctWrong];
       if (typedChar === dialogue[charIndex]) {
         // setCharIndex(charIndex + 1);
@@ -66,7 +70,6 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
             ? PlayerStats.currentStreak
             : PlayerStats.longestStreak;
         PlayerStats.currentStreak = 0; // Reset streak
-        // resetDialogue(); // Reset if incorrect
         updatedCorrectWrong[charIndex] = {
           color: "#e70303",
         };
@@ -86,11 +89,8 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         } else {
           // All dialogues completed
           panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
-          setIsTyping(false);
         }
       }
-    } else {
-      setIsTyping(false);
     }
   };
 
@@ -117,14 +117,13 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
     >
       {isGameOver && <GameOver />}
 
-      {panel.id === 2 && isActive && (
+      {/* {panel.id === 2 && isActive && (
         <EnemyAnimation
           src={currentVideo}
           handleOnEnded={handleOnEnded}
           charIndex={charIndex}
           dialogue={dialogue}
-          isTyping={isTyping}
-          setIsTyping={setIsTyping}
+          isTransitioning={isTransitioning}
           setCharIndex={setCharIndex}
           correctWrong={correctWrong}
           resetDialogue={resetDialogue}
@@ -136,7 +135,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
           setMistakeCount={setMistakeCount}
           setIsGameOver={setIsGameOver}
         />
-      )}
+      )} */}
 
       <Panel13
         panel={panel}
@@ -145,18 +144,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
       />
 
       {!panel.combat && dialogue && (
-        <div
-          // className={`${"no-dialogue-box"
-          // dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
-          // }`}
-          className="no-dialogue-box"
-          style={
-            {
-              // transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
-              // width: "70%",
-            }
-          }
-        >
+        <div className="no-dialogue-box">
           <div
             className="dialogue"
             style={{
@@ -172,7 +160,7 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
               onChange={handleInputChange}
               ref={inputRef}
               autoComplete="off"
-              disabled={!isActive} // Disable input if panel is not active
+              disabled={!isActive || isTransitioning} // Disable input if panel is not active
             />
             {dialogue.split("").map((char, index) => (
               <span

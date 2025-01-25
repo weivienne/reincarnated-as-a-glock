@@ -67,7 +67,7 @@ export const PANELS = [
     color_before: GREEN,
     color_after: BLACK,
     other_dialogues: () => [],
-    combat: true,
+    combat: false,
     next_id: 3,
   },
   {
