@@ -33,7 +33,7 @@ export const PANELS = [
   {
     id: 0,
     background: panel1,
-    mc_dialogue: ["type to start"],
+    mc_dialogue: ["a"],
     mc_dialogue_x: "9rem",
     mc_dialogue_y: "30rem",
     rotate: "0deg",
@@ -41,7 +41,7 @@ export const PANELS = [
     color_before: GREY,
     color_after: WHITE,
     other_dialogues: () => [`This is a typing game.`],
-    combat: false,
+    combat: true,
     next_id: 1,
   },
   {

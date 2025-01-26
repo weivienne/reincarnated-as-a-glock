@@ -107,21 +107,12 @@ function EnemyAnimation({
   }, [src, scale]);
 
   return (
-    <>
+    <div className="panel-video-container">
       {src.includes("death") ? (
         // Death animation
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <div>
           <video
-            className="panel-video"
+            className="panel-video2"
             src={src}
             muted
             autoPlay
@@ -130,7 +121,7 @@ function EnemyAnimation({
               position: "absolute",
               top: "50%",
               left: "50%",
-              transform: `translate(-50%, -50%) scale(${fixedScale || 1})`,
+              transform: `translate(-50%, -50%) scale(${fixedScale || scale})`,
               transformOrigin: "center",
               width: "500px", // Base width for scaling
               height: "auto", // Maintain aspect ratio
@@ -139,16 +130,7 @@ function EnemyAnimation({
         </div>
       ) : (
         // Walking animation
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <div>
           {isVisible && (
             <>
               <video
@@ -190,7 +172,7 @@ function EnemyAnimation({
                   onChange={handleInputChange}
                   ref={inputRef}
                   autoComplete="off"
-                  disabled={!isActive} // Disable input if panel is not active
+                  disabled={!isActive || isTransitioning} // Disable input if panel is not active
                 />
                 {dialogue.split("").map((char, index) => (
                   <span
@@ -208,7 +190,7 @@ function EnemyAnimation({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

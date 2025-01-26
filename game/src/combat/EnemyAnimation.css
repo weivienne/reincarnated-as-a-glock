@@ -5,3 +5,12 @@ span.enemy-active {
 span.correct {
   color: #80cc8f;
 }
+
+.panel-video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

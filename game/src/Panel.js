@@ -117,7 +117,7 @@ function Panel({
     >
       {isGameOver && <GameOver />}
 
-      {/* {panel.id === 2 && isActive && (
+      {panel.id === 0 && isActive && (
         <EnemyAnimation
           src={currentVideo}
           handleOnEnded={handleOnEnded}
@@ -135,7 +135,7 @@ function Panel({
           setMistakeCount={setMistakeCount}
           setIsGameOver={setIsGameOver}
         />
-      )} */}
+      )}
 
       <Panel13
         panel={panel}
