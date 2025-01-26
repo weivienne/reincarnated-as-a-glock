@@ -32,8 +32,8 @@ function GameOver() {
                   <td>{PlayerStats.totalMistakes}</td>
                 </tr>
                 <tr>
-                  <th>Average WPM</th>
-                  <td>134</td>
+                  <th>Longest streak</th>
+                  <td>{PlayerStats.longestStreak}</td>
                 </tr>
                 <tr>
                   <th>Accuracy</th>

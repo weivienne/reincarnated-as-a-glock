@@ -6,32 +6,46 @@ import gameOver from "./panels/game-over.png";
 import EnemyAnimation from "./combat/EnemyAnimation";
 import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
+import Panel13 from "./specialPanels/Panel13";
 
-function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
-  const dialogue = panel.mc_dialogue.toLowerCase();
-
+function Panel({
+  panel,
+  isActive,
+  setIsCompleted,
+  setIsGameOver,
+  isGameOver,
+  isTransitioning,
+}) {
+  const [dialogueIndex, setDialogueIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [correctWrong, setCorrectWrong] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
-  const [mistakeCount, setMistakeCount] = useState(1); // Track for user
+  const [mistakeCount, setMistakeCount] = useState(0); // Track for user
+
+  const dialogue =
+    typeof panel.mc_dialogue?.[dialogueIndex] === "string"
+      ? panel.mc_dialogue[dialogueIndex]
+      : "";
 
   const inputRef = useRef(null);
   const charRefs = useRef([]);
 
   useEffect(() => {
-    if (isActive && inputRef.current) {
-      inputRef.current.focus(); // Focus input only when active
+    if (isActive && !isTransitioning && inputRef.current) {
+      const focusTimeout = setTimeout(() => {
+        inputRef.current.focus(); // Focus input after a slight delay to ensure rendering is complete
+      }, 100); // Adjust timeout duration if needed
+      return () => clearTimeout(focusTimeout); // Cleanup timeout
     }
     setCorrectWrong(Array(dialogue.length).fill(""));
-  }, [dialogue, isActive, setIsCompleted]);
+  }, [dialogue, isActive, setIsCompleted, isTransitioning]);
 
   const resetDialogue = () => {
+    setMistakeCount(0);
     setCurrentBg(panel.background);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
-    setIsTyping(false);
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -41,30 +55,42 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
     const typedChar = e.target.value.toLowerCase().slice(-1);
 
     if (charIndex < dialogue.length) {
-      if (!isTyping) {
-        setIsTyping(true);
-      }
-
+      const updatedCorrectWrong = [...correctWrong];
       if (typedChar === dialogue[charIndex]) {
-        setCharIndex(charIndex + 1);
-        correctWrong[charIndex] = " correct ";
+        // setCharIndex(charIndex + 1);
+        // correctWrong[charIndex] = " correct ";
+        updatedCorrectWrong[charIndex] = {
+          color: panel.color_after,
+        };
       } else {
-        setMistakeCount(mistakeCount + 1);
-        console.log("# of Mistakes: ", mistakeCount);
+        setMistakeCount(1);
         PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
-        resetDialogue(); // Reset if incorrect
+        PlayerStats.longestStreak =
+          PlayerStats.currentStreak > PlayerStats.longestStreak
+            ? PlayerStats.currentStreak
+            : PlayerStats.longestStreak;
+        PlayerStats.currentStreak = 0; // Reset streak
+        updatedCorrectWrong[charIndex] = {
+          color: "#e70303",
+        };
       }
+      setCharIndex(charIndex + 1);
+      setCorrectWrong(updatedCorrectWrong);
 
-      if (
-        charIndex === dialogue.length - 1 &&
-        typedChar === dialogue[charIndex]
-      ) {
-        panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
-        setIsTyping(false);
-        resetDialogue();
+      // Last character was typed
+      if (charIndex === dialogue.length - 1) {
+        if (mistakeCount === 0) {
+          PlayerStats.currentStreak = PlayerStats.currentStreak + 1;
+        }
+        if (dialogueIndex < panel.mc_dialogue.length - 1) {
+          // Move to the next dialogue in the list
+          setDialogueIndex(dialogueIndex + 1);
+          resetDialogue();
+        } else {
+          // All dialogues completed
+          panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
+        }
       }
-    } else {
-      setIsTyping(false);
     }
   };
 
@@ -89,22 +115,15 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         height: "720px",
       }}
     >
-      {!isGameOver && (<div className="reset-button">
-        <button onClick={resetDialogue}>Reset</button>
-      </div>)}
+      {isGameOver && <GameOver />}
 
-      {isGameOver && (
-        <GameOver />
-      )}
-
-      {panel.id === 1 && isActive && (
+      {panel.id === 0 && isActive && (
         <EnemyAnimation
           src={currentVideo}
           handleOnEnded={handleOnEnded}
           charIndex={charIndex}
           dialogue={dialogue}
-          isTyping={isTyping}
-          setIsTyping={setIsTyping}
+          isTransitioning={isTransitioning}
           setCharIndex={setCharIndex}
           correctWrong={correctWrong}
           resetDialogue={resetDialogue}
@@ -118,39 +137,22 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
         />
       )}
 
-      {panel.id === 3 && isActive && (
-        <EnemyAnimation
-          src={currentVideo}
-          handleOnEnded={handleOnEnded}
-          charIndex={charIndex}
-          dialogue={dialogue}
-          isTyping={isTyping}
-          setIsTyping={setIsTyping}
-          setCharIndex={setCharIndex}
-          correctWrong={correctWrong}
-          resetDialogue={resetDialogue}
-          setCurrentVideo={setCurrentVideo}
-          inputRef={inputRef}
-          charRefs={charRefs}
-          isActive={isActive}
-          mistakeCount={mistakeCount}
-          setMistakeCount={setMistakeCount}
-          setIsGameOver={setIsGameOver}
-        />
-      )}
+      <Panel13
+        panel={panel}
+        isActive={isActive}
+        dialogueIndex={dialogueIndex}
+      />
 
       {!panel.combat && dialogue && (
-        <div
-          // className={`${dialogue === " " ? "no-dialogue-box" : "dialogue-box"}`}
-          className={`${
-            dialogue === " " ? "no-dialogue-box" : "speech-bubble round b"
-          }`}
-          style={{
-            transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x})`,
-            width: "70%",
-          }}
-        >
-          <div className="dialogue">
+        <div className="no-dialogue-box">
+          <div
+            className="dialogue"
+            style={{
+              transform: `translateY(${panel.mc_dialogue_y}) translateX(${panel.mc_dialogue_x}) rotate(${panel.rotate})`,
+              fontSize: `${panel.size}`,
+              color: `${panel.color_before}`,
+            }}
+          >
             <input
               className="input-field"
               id="panel1-input"
@@ -158,15 +160,19 @@ function Panel({ panel, isActive, setIsCompleted, setIsGameOver, isGameOver }) {
               onChange={handleInputChange}
               ref={inputRef}
               autoComplete="off"
-              disabled={!isActive} // Disable input if panel is not active
+              disabled={!isActive || isTransitioning} // Disable input if panel is not active
             />
             {dialogue.split("").map((char, index) => (
               <span
-                className={`char ${index === charIndex ? "active" : ""} ${
-                  correctWrong[index]
-                }`}
+                className={`char ${index === charIndex ? "active" : ""}`}
+                style={{
+                  color: correctWrong[index]?.color || panel.color_before,
+                }}
                 ref={(e) => (charRefs.current[index] = e)}
                 key={index}
+                onClick={() => {
+                  resetDialogue();
+                }}
               >
                 {char}
               </span>

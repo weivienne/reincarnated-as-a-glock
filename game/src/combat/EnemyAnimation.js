@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import death from "../combat/death.webm";
 import PlayerStats from "../components/PlayerStats";
+import "./EnemyAnimation.css"
 
 function EnemyAnimation({
   src,
   handleOnEnded,
   charIndex,
   dialogue,
-  isTyping,
-  setIsTyping,
   setCharIndex,
   correctWrong,
   resetDialogue,
@@ -18,11 +17,12 @@ function EnemyAnimation({
   isActive,
   mistakeCount,
   setMistakeCount,
+  isTransitioning
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.25);
   const [fixedScale, setFixedScale] = useState(null); // Fixed scale for death animation
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function EnemyAnimation({
         setIsPlaying(false);
         setIsVisible(false);
         setScale(1);
-      }, 3000); // Trigger after 3 seconds
+      }, 6000); // Trigger after 6 seconds
     }
   
     return () => {
@@ -72,10 +72,6 @@ function EnemyAnimation({
     const typedChar = e.target.value.toLowerCase().slice(-1);
 
     if (charIndex < dialogue.length) {
-      if (!isTyping) {
-        setIsTyping(true);
-      }
-
       if (typedChar === dialogue[charIndex]) {
         setCharIndex(charIndex + 1);
         correctWrong[charIndex] = " correct ";
@@ -83,19 +79,23 @@ function EnemyAnimation({
         setMistakeCount(mistakeCount + 1);
         console.log("Mistake count in enemy: ", mistakeCount);
         PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+        PlayerStats.longestStreak =
+          PlayerStats.currentStreak > PlayerStats.longestStreak
+            ? PlayerStats.currentStreak
+            : PlayerStats.longestStreak;
+        PlayerStats.currentStreak = 0; // Reset streak
         resetDialogue(); // Reset if incorrect
       }
 
+      // Last character was typed correctly
       if (
         charIndex === dialogue.length - 1 &&
         typedChar === dialogue[charIndex]
       ) {
+        PlayerStats.currentStreak = PlayerStats.currentStreak + 1;
         setCurrentVideo(death);
-        setIsTyping(false);
         resetDialogue();
       }
-    } else {
-      setIsTyping(false);
     }
   };
 
@@ -107,21 +107,12 @@ function EnemyAnimation({
   }, [src, scale]);
 
   return (
-    <>
+    <div className="panel-video-container">
       {src.includes("death") ? (
         // Death animation
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <div>
           <video
-            className="panel-video"
+            className="panel-video2"
             src={src}
             muted
             autoPlay
@@ -130,7 +121,7 @@ function EnemyAnimation({
               position: "absolute",
               top: "50%",
               left: "50%",
-              transform: `translate(-50%, -50%) scale(${fixedScale || 1})`,
+              transform: `translate(-50%, -50%) scale(${fixedScale || scale})`,
               transformOrigin: "center",
               width: "500px", // Base width for scaling
               height: "auto", // Maintain aspect ratio
@@ -139,16 +130,7 @@ function EnemyAnimation({
         </div>
       ) : (
         // Walking animation
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <div>
           {isVisible && (
             <>
               <video
@@ -190,11 +172,11 @@ function EnemyAnimation({
                   onChange={handleInputChange}
                   ref={inputRef}
                   autoComplete="off"
-                  disabled={!isActive} // Disable input if panel is not active
+                  disabled={!isActive || isTransitioning} // Disable input if panel is not active
                 />
                 {dialogue.split("").map((char, index) => (
                   <span
-                    className={`char ${index === charIndex ? "active" : ""} ${
+                    className={`char ${index === charIndex ? "enemy-active" : ""} ${
                       correctWrong[index]
                     }`}
                     ref={(e) => (charRefs.current[index] = e)}
@@ -208,7 +190,7 @@ function EnemyAnimation({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

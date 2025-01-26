@@ -34,7 +34,15 @@
 
 .dialogue {
   display: inline-block;
-  color: #a3a3a3;
+  max-width: 13rem;
+  animation-name: light-fade;
+  animation-duration: 0.5s; 
+  animation-timing-function: linear; 
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+  animation-play-state: running; 
 }
 
 input.input-field {
@@ -44,16 +52,15 @@ input.input-field {
 }
 
 span {
-  font-size: 18px;
   user-select: none;
 }
 
 span.active {
-  border-bottom: 3px solid white;
+  border-bottom: 3px solid #2d9441;
 }
 
 span.correct {
-  color: rgb(73, 234, 73);
+  color: rgb(0, 0, 0);
 }
 
 .reset-button button {
@@ -176,3 +183,13 @@ span.correct {
   top:calc(50% - var(--arrow-w) - var(--border-size));
   right:calc(-1 * var(--arrow-h) * 2 - 2.5*var(--border-size)); 
 }
+
+/* @keyframes light-fade {
+  0% {
+   opacity: 0.6;
+  }
+  100% {
+   opacity: 1;
+  }
+ } */
+ 
