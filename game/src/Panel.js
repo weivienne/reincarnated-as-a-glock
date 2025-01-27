@@ -75,7 +75,11 @@ function Panel({
           charIndex === dialogue.length - 1 &&
           typedChar === dialogue[charIndex]
         ) {
-          PlayerStats.currentStreak = PlayerStats.currentStreak + 1;
+          PlayerStats.currentStreak += 1;
+          PlayerStats.longestStreak =
+            PlayerStats.currentStreak > PlayerStats.longestStreak
+              ? PlayerStats.currentStreak
+              : PlayerStats.longestStreak;
           setCurrentVideo(death);
           resetDialogue();
         }
