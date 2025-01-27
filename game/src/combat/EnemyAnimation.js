@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import death from "../combat/death.webm";
 import PlayerStats from "../components/PlayerStats";
-import "./EnemyAnimation.css"
+import "./EnemyAnimation.css";
 
 function EnemyAnimation({
   src,
@@ -17,7 +17,7 @@ function EnemyAnimation({
   isActive,
   mistakeCount,
   setMistakeCount,
-  isTransitioning
+  isTransitioning,
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -27,16 +27,16 @@ function EnemyAnimation({
 
   useEffect(() => {
     let timeoutId;
-  
+
     if (isPlaying) {
       timeoutId = setTimeout(() => {
         handleOnEnded();
         setIsPlaying(false);
         setIsVisible(false);
         setScale(1);
-      }, 6000); // Trigger after 6 seconds
+      }, 30000); // Trigger after 6 seconds
     }
-  
+
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId); // Cleanup timeout on unmount
@@ -110,24 +110,19 @@ function EnemyAnimation({
     <div className="panel-video-container">
       {src.includes("death") ? (
         // Death animation
-        <div>
+        // <div>
           <video
-            className="panel-video2"
+            className="panel-video"
             src={src}
             muted
             autoPlay
             onEnded={handleOnEnded}
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: `translate(-50%, -50%) scale(${fixedScale || scale})`,
-              transformOrigin: "center",
-              width: "500px", // Base width for scaling
-              height: "auto", // Maintain aspect ratio
+              // transform: `translate(-50%, -50%) scale(${fixedScale || scale})`,
+              // transformOrigin: "center",
             }}
           />
-        </div>
+        // </div>
       ) : (
         // Walking animation
         <div>
@@ -143,26 +138,16 @@ function EnemyAnimation({
                 onPlay={handlePlay}
                 style={{
                   position: "absolute",
-                  top: "50%",
-                  left: "50%",
                   transform: `translate(-50%, -50%) scale(${scale})`,
                   transformOrigin: "center",
-                  width: "500px", // Base width for scaling
-                  height: "auto", // Maintain aspect ratio
                 }}
               />
               {/* Text that follows the enemy */}
-              <div
+              <div className="prompt"
                 style={{
                   position: "absolute",
-                  top: "50%",
-                  left: "50%",
                   transform: `translate(-50%, -50%) scale(${scale})`, // Same scale as the video
                   transformOrigin: "center",
-                  color: "white", // Text color
-                  fontSize: "20px", // Adjust text size
-                  fontWeight: "bold", // Make the text bold
-                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", // Optional shadow for better visibility
                 }}
               >
                 <input
@@ -176,9 +161,9 @@ function EnemyAnimation({
                 />
                 {dialogue.split("").map((char, index) => (
                   <span
-                    className={`char ${index === charIndex ? "enemy-active" : ""} ${
-                      correctWrong[index]
-                    }`}
+                    className={`char ${
+                      index === charIndex ? "enemy-active" : ""
+                    } ${correctWrong[index]}`}
                     ref={(e) => (charRefs.current[index] = e)}
                     key={index}
                   >
