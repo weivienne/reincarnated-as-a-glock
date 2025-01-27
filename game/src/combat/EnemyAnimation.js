@@ -40,7 +40,7 @@ function EnemyAnimation({
   };
 
   return (
-    <div className="enemy-animation-container">
+    <div>
       {src.includes("death") ? (
         <video
           className="panel-video"
@@ -84,9 +84,9 @@ function EnemyAnimation({
               className="prompt"
               style={{
                 position: "absolute",
-                top: "10rem", // Adjust as needed
-                left: "50%",
-                transform: `translateX(-50%) scale(${scale})`,
+                top: "0rem", // Adjust as needed
+                left: "40%",
+                transform: `scale(${scale})`,
                 transformOrigin: "center",
               }}
             >
