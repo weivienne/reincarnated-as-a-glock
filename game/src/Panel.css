@@ -5,6 +5,7 @@
 
 .panel {
   width: 500px;
+  height: 720px;
   background-size: cover;
   background-position: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -22,27 +23,14 @@
   text-align: center;
 }
 
-.no-dialogue-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.dialogue-position {
+  display: absolute;
   background-color: transparent;
-  max-width: 40rem;
-  height: 6rem;
-  text-align: center;
 }
 
 .dialogue {
   display: inline-block;
   max-width: 13rem;
-  animation-name: light-fade;
-  animation-duration: 0.5s; 
-  animation-timing-function: linear; 
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: infinite;
-  animation-fill-mode: none;
-  animation-play-state: running; 
 }
 
 input.input-field {
