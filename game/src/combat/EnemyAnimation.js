@@ -23,8 +23,8 @@ function EnemyAnimation({
 
     if (isPlaying) {
       scaleInterval = setInterval(() => {
-        setScale((prevScale) => Math.min(prevScale + 0.02, 2));
-      }, 100);
+        setScale((prevScale) => Math.min(prevScale + 0.015, 1.5));
+      }, 75);
 
       return () => clearInterval(scaleInterval);
     }
@@ -51,23 +51,8 @@ function EnemyAnimation({
         />
       ) : (
         <div>
-          <div>
-            <video
-              className="panel-video"
-              ref={videoRef}
-              src={src}
-              loop
-              muted
-              autoPlay
-              onPlay={handlePlay}
-              style={{
-                position: "relative",
-                transform: `translate(-15rem, 50rem) scale(${scale})`,
-                transformOrigin: "center",
-              }}
-            />
-          </div>
-          <>
+          {/* Gun UI */}
+          <div style={{ position: "relative", zIndex: 1 }}>
             <video
               className="panel-video"
               ref={videoRef}
@@ -78,11 +63,30 @@ function EnemyAnimation({
               onPlay={handlePlay}
               style={{}}
             />
+          </div>
+
+          {/* Monster UI */}
+          <div style={{ position: "relative", zIndex: 0, marginTop: "-20rem" }}>
+            <video
+              className="panel-video"
+              ref={videoRef}
+              src={src}
+              loop
+              muted
+              autoPlay
+              onPlay={handlePlay}
+              style={{
+                transform: `translate(0rem, -20rem) scale(${scale})`,
+                transformOrigin: "center",
+              }}
+            />
             <div
               className="prompt"
               style={{
-                position: "relative",
-                transform: `translate(0rem, -20rem) scale(${scale})`,
+                position: "absolute",
+                top: "10rem", // Adjust as needed
+                left: "50%",
+                transform: `translateX(-50%) scale(${scale})`,
                 transformOrigin: "center",
               }}
             >
@@ -106,7 +110,7 @@ function EnemyAnimation({
                 </span>
               ))}
             </div>
-          </>
+          </div>
         </div>
       )}
     </div>
