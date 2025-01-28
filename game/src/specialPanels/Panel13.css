@@ -8,7 +8,7 @@
 }
 
 .click {
-  animation: jump 0.5s linear 2;
+  animation: jump 0.5s linear 2, disappear 200ms 500ms forwards;
 }
 
 .clang {

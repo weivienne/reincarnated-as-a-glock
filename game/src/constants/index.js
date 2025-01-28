@@ -263,7 +263,7 @@ export const PANELS = [
     rotate: "0deg",
     size: "18px",
     color_before: GREY,
-    color_after: BLACK,
+    color_after: WHITE,
     other_dialogues: () => [],
     combat: false,
     next_id: 16,
