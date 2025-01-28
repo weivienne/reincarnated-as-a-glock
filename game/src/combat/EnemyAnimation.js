@@ -4,6 +4,7 @@ import gun from "./gun.webm";
 
 function EnemyAnimation({
   src,
+  panel,
   dialogue,
   charIndex,
   correctWrong,
@@ -17,7 +18,7 @@ function EnemyAnimation({
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [scale, setScale] = useState(0.25);
+  const [scale, setScale] = useState(0.1);
   const MAX_SCALE = 1.5;
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function EnemyAnimation({
 
     if (isPlaying) {
       scaleInterval = setInterval(() => {
-        setScale((prevScale) => Math.min(prevScale + 0.015, MAX_SCALE));
+        setScale((prevScale) => Math.min(prevScale + 0.01, MAX_SCALE));
       }, 75);
 
       return () => clearInterval(scaleInterval);
@@ -88,7 +89,7 @@ function EnemyAnimation({
                 autoPlay
                 onPlay={handlePlay}
                 style={{
-                  transform: `translate(0rem, -20rem) scale(${scale})`,
+                  transform: `translate(0rem, -25rem) scale(${scale})`,
                   transformOrigin: "center",
                 }}
               />
@@ -96,10 +97,9 @@ function EnemyAnimation({
                 className="prompt"
                 style={{
                   position: "absolute",
-                  top: "0rem", // Adjust as needed
-                  left: "40%",
-                  transform: `scale(${scale})`,
-                  transformOrigin: "center",
+                  top: `${panel.mc_dialogue_x}`, // Adjust as needed
+                  left: `${panel.mc_dialogue_y}`,
+                  fontSize: `${panel.size}`,
                 }}
               >
                 <input

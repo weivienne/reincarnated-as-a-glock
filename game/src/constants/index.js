@@ -17,10 +17,14 @@ import panel15 from "../panels/panel15.png";
 import panel16 from "../panels/panel16.png";
 import panel17 from "../panels/panel17.png";
 import panel18 from "../panels/panel18.png";
+import panel19 from "../panels/panel19.png";
+import panel20 from "../panels/panel20.png";
+import panel21 from "../panels/panel21.png";
+import panel22 from "../panels/panel22.png";
 
 const BLACK = "#000000";
 const WHITE = "#ffffff";
-// const RED = "#ff0000";
+const RED = "#ff0000";
 const GREY = "#a0a0a0";
 
 export const PANELS = [
@@ -281,6 +285,48 @@ export const PANELS = [
   {
     id: 17,
     background: panel18,
+    mc_dialogue: ["am i a gun?"],
+    mc_dialogue_x: "-10rem",
+    mc_dialogue_y: "19rem",
+    rotate: "0deg",
+    size: "25px",
+    color_before: GREY,
+    color_after: RED,
+    other_dialogues: () => [],
+    combat: true,
+    next_id: 18,
+  },
+  {
+    id: 18,
+    background: panel19,
+    mc_dialogue: ["this can't be real!", "why can't i wake up?"],
+    mc_dialogue_x: "-11rem",
+    mc_dialogue_y: "16rem",
+    rotate: "0deg",
+    size: "25px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: true,
+    next_id: 19,
+  },
+  {
+    id: 19,
+    background: panel20,
+    mc_dialogue: ["please make this stop", "i think i'm gonna"],
+    mc_dialogue_x: "-11rem",
+    mc_dialogue_y: "17rem",
+    rotate: "0deg",
+    size: "25px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: true,
+    next_id: 20,
+  },
+  {
+    id: 20,
+    background: panel21,
     mc_dialogue: [" "],
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
@@ -290,6 +336,20 @@ export const PANELS = [
     color_after: BLACK,
     other_dialogues: () => [],
     combat: false,
-    next_id: 18,
+    next_id: 21,
+  },
+  {
+    id: 21,
+    background: panel22,
+    mc_dialogue: [" "],
+    mc_dialogue_x: "2.7rem",
+    mc_dialogue_y: "10rem",
+    rotate: "0deg",
+    size: "30px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: false,
+    next_id: 22,
   },
 ];
