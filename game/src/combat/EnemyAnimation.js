@@ -14,12 +14,14 @@ function EnemyAnimation({
   charRefs,
   isActive,
   isTransitioning,
+  isVisible,
+  isGameOver,
 }) {
+  const INITIAL_SCALE = 0.1;
+  const MAX_SCALE = 1.5;
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [scale, setScale] = useState(0.1);
-  const MAX_SCALE = 1.5;
+  const [scale, setScale] = useState(INITIAL_SCALE);
 
   useEffect(() => {
     let scaleInterval;
@@ -27,6 +29,7 @@ function EnemyAnimation({
     if (isPlaying) {
       scaleInterval = setInterval(() => {
         setScale((prevScale) => Math.min(prevScale + 0.01, MAX_SCALE));
+        // setScale((prevScale) => Math.min(prevScale + 0.05, MAX_SCALE));
       }, 75);
 
       return () => clearInterval(scaleInterval);
@@ -35,13 +38,15 @@ function EnemyAnimation({
 
   useEffect(() => {
     if (scale === 1.5) {
-      setIsVisible(false);
+      setIsPlaying(false);
+      setScale(INITIAL_SCALE);
       handleOnEnded();
     }
   }, [scale, handleOnEnded]);
 
   const handlePlay = () => {
-    if (!isPlaying) {
+    console.log('in handlePlay, gameover: ', isGameOver)
+    if (!isPlaying && !isGameOver) {
       setIsPlaying(true);
       if (videoRef.current) {
         videoRef.current.play();
@@ -86,7 +91,6 @@ function EnemyAnimation({
                 src={src}
                 loop
                 muted
-                autoPlay
                 onPlay={handlePlay}
                 style={{
                   transform: `translate(0rem, -25rem) scale(${scale})`,

@@ -22,6 +22,7 @@ function Panel({
   const [currentVideo, setCurrentVideo] = useState(monster1);
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
@@ -41,85 +42,123 @@ function Panel({
     setCorrectWrong(Array(dialogue.length).fill(""));
   }, [dialogue, isActive, isTransitioning]);
 
-  const resetDialogue = () => {
-    setMistakeCount(0);
-    setCharIndex(0);
-    setCorrectWrong(Array(dialogue.length).fill(""));
-    if (inputRef.current) {
-      inputRef.current.focus();
+  useEffect(() => {
+    console.log("isGameOver: ", isGameOver);
+    if (isGameOver) {
+      setCurrentBg(gameOver);
+      setIsVisible(false);
+    } else {
+      setCurrentBg(panel.background);
+      setIsVisible(true);
+      setDialogueIndex(0);
+      resetDialogue();
+    }
+  }, [isGameOver]);
+
+  const handleKeyDown = (event) => {
+    if (isGameOver) {
+      if (event.key === " ") {
+        console.log("restarting level");
+        setIsGameOver(false);
+        setDialogueIndex(0);
+        resetDialogue();
+        setCurrentBg(panel.background);
+        setCurrentVideo(monster1);
+        setIsVisible(true);
+      }
+      return;
     }
   };
 
-  const handleInputChange = (e) => {
-    const typedChar = e.target.value.toLowerCase().slice(-1);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-    if (panel.combat) {
-      if (charIndex < dialogue.length) {
-        if (typedChar === dialogue[charIndex]) {
-          setCharIndex(charIndex + 1);
-          correctWrong[charIndex] = " correct ";
-        } else {
-          setMistakeCount(mistakeCount + 1);
-          console.log("Mistake count in enemy: ", mistakeCount);
-          PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
-          PlayerStats.longestStreak =
-            PlayerStats.currentStreak > PlayerStats.longestStreak
-              ? PlayerStats.currentStreak
-              : PlayerStats.longestStreak;
-          PlayerStats.currentStreak = 0; // Reset streak
-          resetDialogue(); // Reset if incorrect
-        }
+    // Cleanup the event listener on unmount
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [panel, dialogue.length, isGameOver]);
 
-        // Last character was typed correctly
-        if (
-          charIndex === dialogue.length - 1 &&
-          typedChar === dialogue[charIndex]
-        ) {
-          PlayerStats.currentStreak += 1;
-          PlayerStats.longestStreak =
-            PlayerStats.currentStreak > PlayerStats.longestStreak
-              ? PlayerStats.currentStreak
-              : PlayerStats.longestStreak;
-
-          if (dialogueIndex < panel.mc_dialogue.length - 1) {
-            setDialogueIndex((prev) => prev + 1);
-          } else {
-            setCurrentVideo(death);
-          }
-          resetDialogue();
-        }
+  const resetDialogue = () => {
+    console.log("in reset dialogue");
+    setMistakeCount(0);
+    setCharIndex(0);
+    setCorrectWrong(Array(dialogue.length).fill(""));
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
       }
-    } else {
-      if (charIndex < dialogue.length) {
-        const updatedCorrectWrong = [...correctWrong];
-        if (typedChar === dialogue[charIndex]) {
-          updatedCorrectWrong[charIndex] = {
-            color: panel.color_after,
-          };
-        } else {
-          setMistakeCount(1);
-          PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
-          PlayerStats.longestStreak =
-            PlayerStats.currentStreak > PlayerStats.longestStreak
-              ? PlayerStats.currentStreak
-              : PlayerStats.longestStreak;
-          PlayerStats.currentStreak = 0; // Reset streak
-          updatedCorrectWrong[charIndex] = {
-            color: "#e70303",
-          };
-        }
-        setCharIndex((prev) => prev + 1);
-        setCorrectWrong(updatedCorrectWrong);
+    }, 0);
+  };
 
-        if (charIndex === dialogue.length - 1) {
-          if (mistakeCount === 0) {
-            PlayerStats.currentStreak += 1;
-          }
-          if (dialogueIndex < panel.mc_dialogue.length - 1) {
-            setDialogueIndex((prev) => prev + 1);
-            resetDialogue();
+  const handleInputChange = (e) => {
+    if (!isGameOver) {
+      const typedChar = e.target.value.toLowerCase().slice(-1);
+      if (panel.combat) {
+        if (charIndex < dialogue.length) {
+          if (typedChar === dialogue[charIndex]) {
+            setCharIndex(charIndex + 1);
+            correctWrong[charIndex] = " correct ";
           } else {
-            panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
+            setMistakeCount(mistakeCount + 1);
+            PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+            PlayerStats.longestStreak =
+              PlayerStats.currentStreak > PlayerStats.longestStreak
+                ? PlayerStats.currentStreak
+                : PlayerStats.longestStreak;
+            PlayerStats.currentStreak = 0; // Reset streak
+            resetDialogue(); // Reset if incorrect
+          }
+
+          // Last character was typed correctly
+          if (
+            charIndex === dialogue.length - 1 &&
+            typedChar === dialogue[charIndex]
+          ) {
+            PlayerStats.currentStreak += 1;
+            PlayerStats.longestStreak =
+              PlayerStats.currentStreak > PlayerStats.longestStreak
+                ? PlayerStats.currentStreak
+                : PlayerStats.longestStreak;
+
+            if (dialogueIndex < panel.mc_dialogue.length - 1) {
+              setDialogueIndex((prev) => prev + 1);
+            } else {
+              setCurrentVideo(death);
+            }
+            resetDialogue();
+          }
+        }
+      } else {
+        if (charIndex < dialogue.length) {
+          const updatedCorrectWrong = [...correctWrong];
+          if (typedChar === dialogue[charIndex]) {
+            updatedCorrectWrong[charIndex] = {
+              color: panel.color_after,
+            };
+          } else {
+            setMistakeCount(1);
+            PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+            PlayerStats.longestStreak =
+              PlayerStats.currentStreak > PlayerStats.longestStreak
+                ? PlayerStats.currentStreak
+                : PlayerStats.longestStreak;
+            PlayerStats.currentStreak = 0; // Reset streak
+            updatedCorrectWrong[charIndex] = {
+              color: "#e70303",
+            };
+          }
+          setCharIndex((prev) => prev + 1);
+          setCorrectWrong(updatedCorrectWrong);
+
+          if (charIndex === dialogue.length - 1) {
+            if (mistakeCount === 0) {
+              PlayerStats.currentStreak += 1;
+            }
+            if (dialogueIndex < panel.mc_dialogue.length - 1) {
+              setDialogueIndex((prev) => prev + 1);
+              resetDialogue();
+            } else {
+              panel.combat ? setCurrentVideo(death) : setIsCompleted(true);
+            }
           }
         }
       }
@@ -130,7 +169,6 @@ function Panel({
     if (currentVideo === death) {
       setIsCompleted(true);
     } else {
-      setCurrentBg(gameOver);
       setIsGameOver(true);
     }
   };
@@ -155,6 +193,8 @@ function Panel({
           charRefs={charRefs}
           isActive={isActive}
           isTransitioning={isTransitioning}
+          isVisible={isVisible}
+          isGameOver={isGameOver}
         />
       )}
 
