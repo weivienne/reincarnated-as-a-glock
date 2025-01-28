@@ -47,7 +47,9 @@ function Home() {
         <div
           key={panel.id}
           ref={(el) => (panelRefs.current[index] = el)}
-          className={`panel-wrapper ${index === currentPanelIndex ? "active" : ""}`}
+          className={`panel-wrapper ${
+            index === currentPanelIndex ? "active" : ""
+          }`}
         >
           <Panel
             panel={panel}
