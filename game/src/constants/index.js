@@ -21,6 +21,9 @@ import panel19 from "../panels/panel19.png";
 import panel20 from "../panels/panel20.png";
 import panel21 from "../panels/panel21.png";
 import panel22 from "../panels/panel22.png";
+import panel23 from "../panels/panel23.png";
+import panel24 from "../panels/panel24.png";
+import panel25 from "../panels/panel25.png";
 
 const BLACK = "#000000";
 const WHITE = "#ffffff";
@@ -51,7 +54,7 @@ export const PANELS = [
     rotate: "10deg",
     size: "25px",
     color_before: GREY,
-    color_after: BLACK,
+    color_after: WHITE,
     other_dialogues: () => [],
     combat: false,
     next_id: 2,
@@ -90,7 +93,7 @@ export const PANELS = [
     mc_dialogue: ["arg, useless thing", "out of bullets", "damn rifle"],
     mc_dialogue_x: "4rem",
     mc_dialogue_y: "10rem",
-    rotate: "-23deg",
+    rotate: "-24deg",
     size: "25px",
     color_before: GREY,
     color_after: BLACK,
@@ -158,7 +161,7 @@ export const PANELS = [
   {
     id: 9,
     background: panel10,
-    mc_dialogue: ["i don't even know where this story is going.."],
+    mc_dialogue: ["i don't even know where this story is going."],
     mc_dialogue_x: "8.5rem",
     mc_dialogue_y: "29rem",
     rotate: "0deg",
@@ -327,11 +330,11 @@ export const PANELS = [
   {
     id: 20,
     background: panel21,
-    mc_dialogue: [" "],
-    mc_dialogue_x: "2.7rem",
-    mc_dialogue_y: "10rem",
+    mc_dialogue: ["boom!"],
+    mc_dialogue_x: "-0.5rem",
+    mc_dialogue_y: "20rem",
     rotate: "0deg",
-    size: "30px",
+    size: "70px",
     color_before: GREY,
     color_after: BLACK,
     other_dialogues: () => [],
@@ -341,6 +344,34 @@ export const PANELS = [
   {
     id: 21,
     background: panel22,
+    mc_dialogue: ["ack"],
+    mc_dialogue_x: "-10.2rem",
+    mc_dialogue_y: "7rem",
+    rotate: "0deg",
+    size: "25px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: false,
+    next_id: 22,
+  },
+  {
+    id: 22,
+    background: panel23,
+    mc_dialogue: ["what the f-"],
+    mc_dialogue_x: "-0.5rem",
+    mc_dialogue_y: "22rem",
+    rotate: "0deg",
+    size: "29px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: false,
+    next_id: 23,
+  },
+  {
+    id: 23,
+    background: panel24,
     mc_dialogue: [" "],
     mc_dialogue_x: "2.7rem",
     mc_dialogue_y: "10rem",
@@ -350,6 +381,20 @@ export const PANELS = [
     color_after: BLACK,
     other_dialogues: () => [],
     combat: false,
-    next_id: 22,
+    next_id: 24,
+  },
+  {
+    id: 24,
+    background: panel25,
+    mc_dialogue: [" "],
+    mc_dialogue_x: "2.7rem",
+    mc_dialogue_y: "10rem",
+    rotate: "0deg",
+    size: "30px",
+    color_before: GREY,
+    color_after: BLACK,
+    other_dialogues: () => [],
+    combat: false,
+    next_id: 24,
   },
 ];
