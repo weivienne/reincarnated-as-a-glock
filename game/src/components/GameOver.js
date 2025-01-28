@@ -42,7 +42,7 @@ function GameOver() {
               </tbody>
             </table>
           </div>
-          <p>Press space to play again...</p>
+          <p>Press space to retry...</p>
         </div>
       </div>
     </div>
