@@ -80,7 +80,12 @@ function Panel({
             PlayerStats.currentStreak > PlayerStats.longestStreak
               ? PlayerStats.currentStreak
               : PlayerStats.longestStreak;
-          setCurrentVideo(death);
+
+          if (dialogueIndex < panel.mc_dialogue.length - 1) {
+            setDialogueIndex((prev) => prev + 1);
+          } else {
+            setCurrentVideo(death);
+          }
           resetDialogue();
         }
       }
@@ -141,6 +146,7 @@ function Panel({
       {panel.combat && isActive && (
         <EnemyAnimation
           src={currentVideo}
+          panel={panel}
           dialogue={dialogue}
           correctWrong={correctWrong}
           handleInputChange={handleInputChange}
