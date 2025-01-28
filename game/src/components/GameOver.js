@@ -16,6 +16,8 @@ function GameOver() {
   //   return () => window.removeEventListener("keydown", handleKeyDown);
   // }, []);
 
+  const accuracy = (((PlayerStats.totalKeysPressed - PlayerStats.totalMistakes) / PlayerStats.totalKeysPressed) * 100).toFixed(2);
+
   return (
     <div className="game-over-container">
       <div className="game-over">Game Over</div>
@@ -37,7 +39,7 @@ function GameOver() {
                 </tr>
                 <tr>
                   <th>Accuracy</th>
-                  <td>78%</td>
+                  <td>{accuracy}%</td>
                 </tr>
               </tbody>
             </table>

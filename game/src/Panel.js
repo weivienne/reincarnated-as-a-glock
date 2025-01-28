@@ -24,6 +24,8 @@ function Panel({
   const [mistakeCount, setMistakeCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
+  console.log("stats=", PlayerStats)
+
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
       ? panel.mc_dialogue[dialogueIndex]
@@ -43,7 +45,6 @@ function Panel({
   }, [dialogue, isActive, isTransitioning]);
 
   useEffect(() => {
-    console.log("isGameOver: ", isGameOver);
     if (isGameOver) {
       setCurrentBg(gameOver);
       setIsVisible(false);
@@ -58,7 +59,6 @@ function Panel({
   const handleKeyDown = (event) => {
     if (isGameOver) {
       if (event.key === " ") {
-        console.log("restarting level");
         setIsGameOver(false);
         setDialogueIndex(0);
         resetDialogue();
@@ -78,7 +78,6 @@ function Panel({
   }, [panel, dialogue.length, isGameOver]);
 
   const resetDialogue = () => {
-    console.log("in reset dialogue");
     setMistakeCount(0);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
@@ -92,6 +91,7 @@ function Panel({
   const handleInputChange = (e) => {
     if (!isGameOver) {
       const typedChar = e.target.value.toLowerCase().slice(-1);
+      PlayerStats.totalKeysPressed += 1;
       if (panel.combat) {
         if (charIndex < dialogue.length) {
           if (typedChar === dialogue[charIndex]) {
@@ -99,7 +99,7 @@ function Panel({
             correctWrong[charIndex] = " correct ";
           } else {
             setMistakeCount(mistakeCount + 1);
-            PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+            PlayerStats.totalMistakes += 1;
             PlayerStats.longestStreak =
               PlayerStats.currentStreak > PlayerStats.longestStreak
                 ? PlayerStats.currentStreak
