@@ -12,6 +12,9 @@ import useSound from 'use-sound';
 import correctKey from "./sound/correct-key.mp3";
 import wrongKey from "./sound/wrong-key.mp3";
 import correctWord from "./sound/correct-word.mp3";
+import oneDing from "./sound/one-ding.mp3";
+import twoDings from "./sound/two-dings.mp3";
+import threeDings from "./sound/three-dings.mp3";
 
 function Panel({
   panel,
@@ -29,9 +32,14 @@ function Panel({
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+
+  // Sound effects
   const [playCorrectKey] = useSound(correctKey);
   const [playWrongKey] = useSound(wrongKey);
   const [playCorrectWord] = useSound(correctWord);
+  const [playOneDing] = useSound(oneDing);
+  const [playTwoDings] = useSound(twoDings);
+  const [playThreeDings] = useSound(threeDings);
 
   console.log("stats=", PlayerStats)
 
@@ -64,6 +72,29 @@ function Panel({
       resetDialogue();
     }
   }, [isGameOver]);
+
+  useEffect(() => {
+    let soundTimeout;
+    if (isActive && panel.id === 1) {
+      setTimeout(() => {
+        playOneDing();
+      }, 500);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 4) {
+      setTimeout(() => {
+        playTwoDings();
+      }, 1000);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 6) {
+      setTimeout(() => {
+        playThreeDings();
+      }, 200);
+      return () => clearTimeout(soundTimeout);
+    }
+  }, [isActive, panel.id]);
+  
 
   const handleKeyDown = (event) => {
     if (isGameOver) {
