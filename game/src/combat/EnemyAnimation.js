@@ -16,6 +16,8 @@ function EnemyAnimation({
   isTransitioning,
   isVisible,
   isGameOver,
+  playMonsterWalk,
+  pause,
 }) {
   const INITIAL_SCALE = 0.1;
   const MAX_SCALE = 1.5;
@@ -39,6 +41,7 @@ function EnemyAnimation({
   useEffect(() => {
     if (scale === 1.5) {
       setIsPlaying(false);
+      pause();
       setScale(INITIAL_SCALE);
       handleOnEnded();
     }
@@ -49,6 +52,7 @@ function EnemyAnimation({
       setIsPlaying(true);
       if (videoRef.current) {
         videoRef.current.play();
+        playMonsterWalk();
       }
     }
   };

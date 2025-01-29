@@ -8,6 +8,19 @@ import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 import Panel13 from "./specialPanels/Panel13";
 import EndGame from "./components/EndGame";
+import useSound from 'use-sound';
+import correctKey from "./sound/correct-key.mp3";
+import wrongKey from "./sound/wrong-key.mp3";
+import correctWord from "./sound/correct-word.mp3";
+import oneDing from "./sound/one-ding.mp3";
+import twoDings from "./sound/two-dings.mp3";
+import threeDings from "./sound/three-dings.mp3";
+import bang from "./sound/bang.mp3";
+import beep from "./sound/beep.mp3";
+import crash from "./sound/crash.mp3";
+import monsterWalk from "./sound/monster-walk.mp3";
+import crack from "./sound/crack.mp3";
+import boom from "./sound/boom.mp3";
 
 function Panel({
   panel,
@@ -25,6 +38,20 @@ function Panel({
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+
+  // Sound effects
+  const [playCorrectKey] = useSound(correctKey);
+  const [playWrongKey] = useSound(wrongKey);
+  const [playCorrectWord] = useSound(correctWord);
+  const [playOneDing] = useSound(oneDing);
+  const [playTwoDings] = useSound(twoDings);
+  const [playThreeDings] = useSound(threeDings);
+  const [playBang] = useSound(bang);
+  const [playBeep] = useSound(beep);
+  const [playCrash] = useSound(crash);
+  const [playMonsterWalk, { pause }] = useSound(monsterWalk, { loop: true, });
+  const [playCrack] = useSound(crack);
+  const [playBoom] = useSound(boom);
 
   console.log("stats=", PlayerStats)
 
@@ -57,6 +84,56 @@ function Panel({
       resetDialogue();
     }
   }, [isGameOver]);
+
+  useEffect(() => {
+    let soundTimeout;
+    if (isActive && panel.id === 1) {
+      setTimeout(() => {
+        playOneDing();
+      }, 500);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 4) {
+      setTimeout(() => {
+        playTwoDings();
+      }, 1000);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 6) {
+      setTimeout(() => {
+        playThreeDings();
+      }, 200);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 11) {
+      setTimeout(() => {
+        playBeep();
+      }, 200);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 12) {
+      setTimeout(() => {
+        playCrash();
+      }, 200);
+      setTimeout(() => {
+        playOneDing();
+      }, 2000);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 20) {
+      setTimeout(() => {
+        playCrack();
+      }, 400);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 21) {
+      setTimeout(() => {
+        playBoom();
+      }, 300);
+      return () => clearTimeout(soundTimeout);
+    }
+  }, [isActive, panel.id]);
+  
 
   const handleKeyDown = (event) => {
     if (isGameOver) {
@@ -97,9 +174,11 @@ function Panel({
       if (panel.combat) {
         if (charIndex < dialogue.length) {
           if (typedChar === dialogue[charIndex]) {
+            playCorrectKey();
             setCharIndex(charIndex + 1);
             correctWrong[charIndex] = " correct ";
           } else {
+            playWrongKey();
             setMistakeCount(mistakeCount + 1);
             PlayerStats.totalMistakes += 1;
             PlayerStats.longestStreak =
@@ -124,6 +203,7 @@ function Panel({
             if (dialogueIndex < panel.mc_dialogue.length - 1) {
               setDialogueIndex((prev) => prev + 1);
             } else {
+              playBang();
               setCurrentVideo(death);
             }
             resetDialogue();
@@ -133,10 +213,12 @@ function Panel({
         if (charIndex < dialogue.length) {
           const updatedCorrectWrong = [...correctWrong];
           if (typedChar === dialogue[charIndex]) {
+            playCorrectKey();
             updatedCorrectWrong[charIndex] = {
               color: panel.color_after,
             };
           } else {
+            playWrongKey();
             setMistakeCount(1);
             PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
             PlayerStats.longestStreak =
@@ -153,6 +235,7 @@ function Panel({
 
           if (charIndex === dialogue.length - 1) {
             if (mistakeCount === 0) {
+              playCorrectWord();
               PlayerStats.currentStreak += 1;
             }
             if (dialogueIndex < panel.mc_dialogue.length - 1) {
@@ -168,6 +251,7 @@ function Panel({
   };
 
   const handleOnEnded = () => {
+    pause();
     if (currentVideo === death) {
       setIsCompleted(true);
     } else {
@@ -198,6 +282,8 @@ function Panel({
           isTransitioning={isTransitioning}
           isVisible={isVisible}
           isGameOver={isGameOver}
+          playMonsterWalk={playMonsterWalk}
+          pause={pause}
         />
       )}
 
