@@ -12,7 +12,7 @@
 }
 
 .end-game {
-  color: #fff;
+  color: #e7e7e7;
   font-size: 1.5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 1rem;
@@ -20,7 +20,7 @@
  
 .credits {
   color: #fff;
-  font-size: 1em;
+  font-size: 1.2em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 1rem;
 }
@@ -43,7 +43,7 @@
   width: 350px;
   height: 300px;
   margin: auto;
-  background-color: #da4a4a;
+  background-color: #4a86da;
   color: #fff;
   padding: 1em;
   position: relative;
@@ -59,7 +59,7 @@
  
  .rule {
   width: 75%;
-  border: 1px solid #680d0d;
+  border: 1px solid #052975;
   margin-bottom: 15px;
  }
  
@@ -74,11 +74,11 @@
  }
  
  .action {
-  border-bottom: 1px dashed #680d0d;
+  border-bottom: 1px dashed #052975;
  }
  
  .player {
-  border-right: 1px dashed #680d0d;
+  border-right: 1px dashed #052975;
  }
  
  
@@ -99,7 +99,7 @@
   animation-iteration-count: infinite;
   animation-fill-mode: none;
   animation-play-state: running; 
-  color: #f7d1d1;
+  color: #d1d8f7;
   opacity: 1;
  }
  
@@ -154,13 +154,14 @@
     border-bottom: 1px dotted black;
    }
    #credits table tr td {
-    font-size: 1.2em;
+    font-size: 1em;
    }
    
    #credits table tr th {
     text-align: left;
-    font-size: 1em;
+    font-size: 0.8em;
     border-right: 1px dotted black;
+    padding: 0.5rem;
    }
    
    #credits table tr:last-child {
