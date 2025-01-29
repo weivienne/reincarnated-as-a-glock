@@ -8,6 +8,10 @@ import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 import Panel13 from "./specialPanels/Panel13";
 import EndGame from "./components/EndGame";
+import useSound from 'use-sound';
+import correctKey from "./sound/correct-key.mp3";
+import wrongKey from "./sound/wrong-key.mp3";
+import correctWord from "./sound/correct-word.mp3";
 
 function Panel({
   panel,
@@ -25,6 +29,9 @@ function Panel({
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [playCorrectKey] = useSound(correctKey);
+  const [playWrongKey] = useSound(wrongKey);
+  const [playCorrectWord] = useSound(correctWord);
 
   console.log("stats=", PlayerStats)
 
@@ -97,9 +104,11 @@ function Panel({
       if (panel.combat) {
         if (charIndex < dialogue.length) {
           if (typedChar === dialogue[charIndex]) {
+            playCorrectKey();
             setCharIndex(charIndex + 1);
             correctWrong[charIndex] = " correct ";
           } else {
+            playWrongKey();
             setMistakeCount(mistakeCount + 1);
             PlayerStats.totalMistakes += 1;
             PlayerStats.longestStreak =
@@ -115,6 +124,7 @@ function Panel({
             charIndex === dialogue.length - 1 &&
             typedChar === dialogue[charIndex]
           ) {
+            playCorrectWord();
             PlayerStats.currentStreak += 1;
             PlayerStats.longestStreak =
               PlayerStats.currentStreak > PlayerStats.longestStreak
@@ -133,10 +143,12 @@ function Panel({
         if (charIndex < dialogue.length) {
           const updatedCorrectWrong = [...correctWrong];
           if (typedChar === dialogue[charIndex]) {
+            playCorrectKey();
             updatedCorrectWrong[charIndex] = {
               color: panel.color_after,
             };
           } else {
+            playWrongKey();
             setMistakeCount(1);
             PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
             PlayerStats.longestStreak =
@@ -153,6 +165,7 @@ function Panel({
 
           if (charIndex === dialogue.length - 1) {
             if (mistakeCount === 0) {
+              playCorrectWord();
               PlayerStats.currentStreak += 1;
             }
             if (dialogueIndex < panel.mc_dialogue.length - 1) {
