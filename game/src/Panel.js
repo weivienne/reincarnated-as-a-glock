@@ -16,7 +16,11 @@ import oneDing from "./sound/one-ding.mp3";
 import twoDings from "./sound/two-dings.mp3";
 import threeDings from "./sound/three-dings.mp3";
 import bang from "./sound/bang.mp3";
+import beep from "./sound/beep.mp3";
+import crash from "./sound/crash.mp3";
 import monsterWalk from "./sound/monster-walk.mp3";
+import crack from "./sound/crack.mp3";
+import boom from "./sound/boom.mp3";
 
 function Panel({
   panel,
@@ -43,7 +47,11 @@ function Panel({
   const [playTwoDings] = useSound(twoDings);
   const [playThreeDings] = useSound(threeDings);
   const [playBang] = useSound(bang);
+  const [playBeep] = useSound(beep);
+  const [playCrash] = useSound(crash);
   const [playMonsterWalk, { pause }] = useSound(monsterWalk, { loop: true, });
+  const [playCrack] = useSound(crack);
+  const [playBoom] = useSound(boom);
 
   console.log("stats=", PlayerStats)
 
@@ -95,6 +103,33 @@ function Panel({
       setTimeout(() => {
         playThreeDings();
       }, 200);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 11) {
+      setTimeout(() => {
+        playBeep();
+      }, 200);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 12) {
+      setTimeout(() => {
+        playCrash();
+      }, 200);
+      setTimeout(() => {
+        playOneDing();
+      }, 2000);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 20) {
+      setTimeout(() => {
+        playCrack();
+      }, 400);
+      return () => clearTimeout(soundTimeout);
+    }
+    if (isActive && panel.id === 21) {
+      setTimeout(() => {
+        playBoom();
+      }, 300);
       return () => clearTimeout(soundTimeout);
     }
   }, [isActive, panel.id]);
