@@ -45,7 +45,6 @@ function EnemyAnimation({
   }, [scale, handleOnEnded]);
 
   const handlePlay = () => {
-    console.log('in handlePlay, gameover: ', isGameOver)
     if (!isPlaying && !isGameOver) {
       setIsPlaying(true);
       if (videoRef.current) {

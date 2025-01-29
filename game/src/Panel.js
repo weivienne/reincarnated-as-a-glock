@@ -7,6 +7,7 @@ import EnemyAnimation from "./combat/EnemyAnimation";
 import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 import Panel13 from "./specialPanels/Panel13";
+import EndGame from "./components/EndGame";
 
 function Panel({
   panel,
@@ -15,6 +16,7 @@ function Panel({
   setIsGameOver,
   isGameOver,
   isTransitioning,
+  isEndGame,
 }) {
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -23,6 +25,8 @@ function Panel({
   const [currentBg, setCurrentBg] = useState(panel.background);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+
+  console.log("stats=", PlayerStats)
 
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
@@ -43,7 +47,6 @@ function Panel({
   }, [dialogue, isActive, isTransitioning]);
 
   useEffect(() => {
-    console.log("isGameOver: ", isGameOver);
     if (isGameOver) {
       setCurrentBg(gameOver);
       setIsVisible(false);
@@ -58,7 +61,6 @@ function Panel({
   const handleKeyDown = (event) => {
     if (isGameOver) {
       if (event.key === " ") {
-        console.log("restarting level");
         setIsGameOver(false);
         setDialogueIndex(0);
         resetDialogue();
@@ -78,7 +80,6 @@ function Panel({
   }, [panel, dialogue.length, isGameOver]);
 
   const resetDialogue = () => {
-    console.log("in reset dialogue");
     setMistakeCount(0);
     setCharIndex(0);
     setCorrectWrong(Array(dialogue.length).fill(""));
@@ -92,6 +93,7 @@ function Panel({
   const handleInputChange = (e) => {
     if (!isGameOver) {
       const typedChar = e.target.value.toLowerCase().slice(-1);
+      PlayerStats.totalKeysPressed += 1;
       if (panel.combat) {
         if (charIndex < dialogue.length) {
           if (typedChar === dialogue[charIndex]) {
@@ -99,7 +101,7 @@ function Panel({
             correctWrong[charIndex] = " correct ";
           } else {
             setMistakeCount(mistakeCount + 1);
-            PlayerStats.totalMistakes = PlayerStats.totalMistakes + 1;
+            PlayerStats.totalMistakes += 1;
             PlayerStats.longestStreak =
               PlayerStats.currentStreak > PlayerStats.longestStreak
                 ? PlayerStats.currentStreak
@@ -181,6 +183,7 @@ function Panel({
       }}
     >
       {isGameOver && <GameOver />}
+      {isEndGame && <EndGame />}
       {panel.combat && isActive && (
         <EnemyAnimation
           src={currentVideo}

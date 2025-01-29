@@ -10,9 +10,13 @@ function Home() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [currentPanelIndex, setCurrentPanelIndex] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isEndGame, setIsEndGame] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const FINAL_PANEL_ID = 23;
 
   const panelRefs = useRef([]);
+
+  console.log("panel index: ", currentPanelIndex);
 
   useEffect(() => {
     if (isGameOver) {
@@ -34,6 +38,11 @@ function Home() {
         behavior: "smooth",
         block: "start",
       });
+    }
+
+    if (currentPanelIndex === FINAL_PANEL_ID) {
+      const endTimeout = setTimeout(() => setIsEndGame(true), 500); // Slight pause before showing end card
+      return () => clearTimeout(endTimeout);
     }
 
     // Allow typing again after the transition
@@ -58,6 +67,7 @@ function Home() {
             setIsGameOver={setIsGameOver}
             isGameOver={isGameOver}
             isTransitioning={isTransitioning}
+            isEndGame={isEndGame}
           />
         </div>
       ))}

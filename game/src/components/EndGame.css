@@ -3,7 +3,7 @@
   src: url('../fonts/VivComicHandwriting-Regular.ttf') format('truetype');
 }
 
-.game-over-container {
+.end-game-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,13 +11,27 @@
   height: 100%;
 }
 
-.game-over {
+.end-game {
   color: #fff;
-  font-size: 3em;
+  font-size: 1.5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 1rem;
 }
  
+.credits {
+  color: #fff;
+  font-size: 1em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+
+.special-thanks {
+  color: #fff;
+  font-size: 0.9em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+
  #container {
   display: flex;
   flex-flow: row wrap;
@@ -27,7 +41,7 @@
  
  #menu {
   width: 350px;
-  height: 350px;
+  height: 300px;
   margin: auto;
   background-color: #da4a4a;
   color: #fff;
@@ -75,7 +89,7 @@
  
  
  #menu p {
-  margin-top: 40px;
+  margin-top: -10px;
   text-align: center;
   animation-name: fade;
   animation-duration: 0.8s; 
@@ -131,3 +145,24 @@
   border-bottom: none;
  }
  
+  /* Added stats table styles */
+ 
+  #credits table {
+    width: 340px;
+   }
+   #credits table tr {
+    border-bottom: 1px dotted black;
+   }
+   #credits table tr td {
+    font-size: 1.2em;
+   }
+   
+   #credits table tr th {
+    text-align: left;
+    font-size: 1em;
+    border-right: 1px dotted black;
+   }
+   
+   #credits table tr:last-child {
+    border-bottom: none;
+   }
