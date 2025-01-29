@@ -15,6 +15,8 @@ import correctWord from "./sound/correct-word.mp3";
 import oneDing from "./sound/one-ding.mp3";
 import twoDings from "./sound/two-dings.mp3";
 import threeDings from "./sound/three-dings.mp3";
+import bang from "./sound/bang.mp3";
+import monsterWalk from "./sound/monster-walk.mp3";
 
 function Panel({
   panel,
@@ -40,6 +42,8 @@ function Panel({
   const [playOneDing] = useSound(oneDing);
   const [playTwoDings] = useSound(twoDings);
   const [playThreeDings] = useSound(threeDings);
+  const [playBang] = useSound(bang);
+  const [playMonsterWalk, { pause }] = useSound(monsterWalk, { loop: true, });
 
   console.log("stats=", PlayerStats)
 
@@ -155,7 +159,6 @@ function Panel({
             charIndex === dialogue.length - 1 &&
             typedChar === dialogue[charIndex]
           ) {
-            playCorrectWord();
             PlayerStats.currentStreak += 1;
             PlayerStats.longestStreak =
               PlayerStats.currentStreak > PlayerStats.longestStreak
@@ -165,6 +168,7 @@ function Panel({
             if (dialogueIndex < panel.mc_dialogue.length - 1) {
               setDialogueIndex((prev) => prev + 1);
             } else {
+              playBang();
               setCurrentVideo(death);
             }
             resetDialogue();
@@ -212,6 +216,7 @@ function Panel({
   };
 
   const handleOnEnded = () => {
+    pause();
     if (currentVideo === death) {
       setIsCompleted(true);
     } else {
@@ -242,6 +247,8 @@ function Panel({
           isTransitioning={isTransitioning}
           isVisible={isVisible}
           isGameOver={isGameOver}
+          playMonsterWalk={playMonsterWalk}
+          pause={pause}
         />
       )}
 

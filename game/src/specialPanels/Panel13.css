@@ -3,8 +3,7 @@
 }
 
 .ratatat {
-  animation: jump 0.2s;
-  animation-iteration-count: infinite;
+  animation: jump 0.1s linear 30, disappear 200ms 1500ms forwards;
 }
 
 .click {
