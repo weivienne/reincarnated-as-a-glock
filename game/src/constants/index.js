@@ -302,7 +302,7 @@ export const PANELS = [
   {
     id: 18,
     background: panel19,
-    mc_dialogue: ["this can't be real!", "why can't i wake up?"],
+    mc_dialogue: ["this can't be real", "why can't i wake up?"],
     mc_dialogue_x: "-11rem",
     mc_dialogue_y: "16rem",
     rotate: "0deg",
@@ -316,7 +316,7 @@ export const PANELS = [
   {
     id: 19,
     background: panel20,
-    mc_dialogue: ["please make this stop", "i think i'm gonna"],
+    mc_dialogue: ["please make this stop", "i think i'm about to"],
     mc_dialogue_x: "-11rem",
     mc_dialogue_y: "17rem",
     rotate: "0deg",
@@ -344,7 +344,7 @@ export const PANELS = [
   {
     id: 21,
     background: panel22,
-    mc_dialogue: ["ack"],
+    mc_dialogue: ["!"],
     mc_dialogue_x: "-10.2rem",
     mc_dialogue_y: "7rem",
     rotate: "0deg",

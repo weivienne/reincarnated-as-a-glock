@@ -18,14 +18,14 @@
   padding: 1rem;
 }
  
- #container {
+ #game-over-container {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
  }
  
- #menu {
+ #game-over-menu {
   width: 350px;
   height: 350px;
   margin: auto;
@@ -37,25 +37,25 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
  }
  
- #menu h1 {
+ #game-over-menu h1 {
   text-align: center;
   font-size: 1.5em;
   margin: 10px auto;
  }
  
- .rule {
+ .game-over-rule {
   width: 75%;
   border: 1px solid #680d0d;
   margin-bottom: 15px;
  }
  
- #menu table {
+ #game-over-menu table {
   width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
  }
  
- #controls {
+ #game-over-controls {
   padding-right: 1.6em;
  }
  
@@ -68,13 +68,13 @@
  }
  
  
- #menu table td, #menu table th {
+ #game-over-menu table td, #menu table th {
   padding: 1em;
   text-align: center;
  }
  
  
- #menu p {
+ #game-over-menu p {
   margin-top: 40px;
   text-align: center;
   animation-name: fade;
@@ -89,7 +89,7 @@
   opacity: 1;
  }
  
- .hide {
+ .game-over-hide {
   animation-name: fade;
   animation-duration: 0.3s; 
   animation-timing-function: linear; 
@@ -111,23 +111,23 @@
  
  /* Added stats table styles */
  
- #stats table {
+ #game-over-stats table {
   width: 260px;
  }
- #stats table tr {
+ #game-over-stats table tr {
   border-bottom: 1px dotted black;
  }
- #stats table tr td {
+ #game-over-stats table tr td {
   font-size: 1.3em;
  }
  
- #stats table tr th {
+ #game-over-stats table tr th {
   text-align: left;
   font-size: 1em;
   border-right: 1px dotted black;
  }
  
- #stats table tr:last-child {
+ #game-over-stats table tr:last-child {
   border-bottom: none;
  }
  

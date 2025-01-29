@@ -1,9 +1,9 @@
 span.enemy-active {
-  border-bottom: 3px solid #2d9441;
+  border-bottom: 3px solid #346be1;
 }
 
 span.correct {
-  color: #4fff72;
+  color: #84adff;
 }
 
 .panel-video {
