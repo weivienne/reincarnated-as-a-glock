@@ -3,20 +3,11 @@ import PlayerStats from "./PlayerStats";
 import "./GameOver.css";
 
 function GameOver() {
-  // const handleKeyDown = (event) => {
-  //   if (event.key !== " ") {
-  //     // window.location.reload();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("keydown", handleKeyDown);
-
-  //   // Cleanup the event listener on unmount
-  //   return () => window.removeEventListener("keydown", handleKeyDown);
-  // }, []);
-
-  const accuracy = (((PlayerStats.totalKeysPressed - PlayerStats.totalMistakes) / PlayerStats.totalKeysPressed) * 100).toFixed(2);
+  const accuracy = (
+    ((PlayerStats.totalKeysPressed - PlayerStats.totalMistakes) /
+      PlayerStats.totalKeysPressed) *
+    100
+  ).toFixed(2);
 
   return (
     <div className="game-over-container">

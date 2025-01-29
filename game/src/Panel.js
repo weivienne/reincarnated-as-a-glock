@@ -7,6 +7,7 @@ import EnemyAnimation from "./combat/EnemyAnimation";
 import PlayerStats from "./components/PlayerStats";
 import GameOver from "./components/GameOver";
 import Panel13 from "./specialPanels/Panel13";
+import EndGame from "./components/EndGame";
 
 function Panel({
   panel,
@@ -15,6 +16,7 @@ function Panel({
   setIsGameOver,
   isGameOver,
   isTransitioning,
+  isEndGame,
 }) {
   const [dialogueIndex, setDialogueIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -181,6 +183,7 @@ function Panel({
       }}
     >
       {isGameOver && <GameOver />}
+      {isEndGame && <EndGame />}
       {panel.combat && isActive && (
         <EnemyAnimation
           src={currentVideo}
