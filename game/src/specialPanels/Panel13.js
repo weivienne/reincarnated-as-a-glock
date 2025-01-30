@@ -10,16 +10,11 @@ function Panel13({ panel, isActive, dialogueIndex }) {
   const [playScreech] = useSound(screech);
   const [playRatatat] = useSound(ratatat);
   const [playClick] = useSound(click);
-  const [playClang] = useSound(clang);
+  const [playClang] = useSound(clang, { volume: 0.5 });
 
   useEffect(() => {
-    let soundTimeout;
     if (panel.id === 13 && isActive && dialogueIndex === 3) {
       playScreech();
-      // setTimeout(() => {
-      //   playScreech();
-      // }, 500);
-      // return () => clearTimeout(soundTimeout);
     }
     if (panel.id === 13 && isActive && dialogueIndex === 4) {
       playRatatat();

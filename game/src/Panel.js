@@ -21,6 +21,7 @@ import crash from "./sound/crash.mp3";
 import monsterWalk from "./sound/monster-walk.mp3";
 import crack from "./sound/crack.mp3";
 import boom from "./sound/boom.mp3";
+import glockCombat from "./sound/glock-intro.mp3";
 
 function Panel({
   panel,
@@ -40,8 +41,8 @@ function Panel({
   const [isVisible, setIsVisible] = useState(true);
 
   // Sound effects
-  const [playCorrectKey] = useSound(correctKey);
-  const [playWrongKey] = useSound(wrongKey);
+  const [playCorrectKey] = useSound(correctKey, { volume: 0.4 });
+  const [playWrongKey] = useSound(wrongKey, { volume: 0.4 });
   const [playCorrectWord] = useSound(correctWord);
   const [playOneDing] = useSound(oneDing);
   const [playTwoDings] = useSound(twoDings);
@@ -50,6 +51,7 @@ function Panel({
   const [playBeep] = useSound(beep);
   const [playCrash] = useSound(crash);
   const [playMonsterWalk, { pause }] = useSound(monsterWalk, { loop: true, });
+  const [playGlockCombat, { pause: pauseGlockCombat }] = useSound(glockCombat, { volume: 0.5, loop: true, });
   const [playCrack] = useSound(crack);
   const [playBoom] = useSound(boom);
 
@@ -73,16 +75,16 @@ function Panel({
 
   useEffect(() => {
     const preventScroll = (e) => e.preventDefault();
-  
+
     window.addEventListener("wheel", preventScroll, { passive: false });
     window.addEventListener("touchmove", preventScroll, { passive: false });
-  
+
     return () => {
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
     };
   }, []);
-  
+
 
   useEffect(() => {
     if (isGameOver) {
@@ -131,6 +133,9 @@ function Panel({
       }, 2000);
       return () => clearTimeout(soundTimeout);
     }
+    if (isActive && panel.id === 13) {
+      playGlockCombat();
+    }
     if (isActive && panel.id === 20) {
       setTimeout(() => {
         playCrack();
@@ -144,7 +149,7 @@ function Panel({
       return () => clearTimeout(soundTimeout);
     }
   }, [isActive, panel.id]);
-  
+
 
   const handleKeyDown = (event) => {
     if (isGameOver) {
@@ -163,7 +168,7 @@ function Panel({
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isGameOver]);  
+  }, [isGameOver]);
 
   const resetDialogue = () => {
     setMistakeCount(0);
