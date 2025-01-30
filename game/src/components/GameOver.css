@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  user-select: none;
 }
 
 .game-over {
@@ -69,7 +70,8 @@
  
  
  #game-over-menu table td, #menu table th {
-  padding: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   text-align: center;
  }
  
@@ -119,6 +121,7 @@
  }
  #game-over-stats table tr td {
   font-size: 1.3em;
+  padding-left: 0.5em;
  }
  
  #game-over-stats table tr th {

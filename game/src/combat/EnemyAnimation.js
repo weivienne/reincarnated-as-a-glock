@@ -101,7 +101,7 @@ function EnemyAnimation({
                 }}
               />
               <div
-                className="prompt"
+                className="speech-bubble round r"
                 style={{
                   position: "absolute",
                   top: `${panel.mc_dialogue_x}`, // Adjust as needed

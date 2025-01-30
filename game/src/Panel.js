@@ -140,7 +140,7 @@ function Panel({
     if (isActive && panel.id === 21) {
       setTimeout(() => {
         playBoom();
-      }, 300);
+      }, 150);
       return () => clearTimeout(soundTimeout);
     }
   }, [isActive, panel.id]);
