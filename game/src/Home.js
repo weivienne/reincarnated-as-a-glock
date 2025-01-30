@@ -16,14 +16,6 @@ function Home() {
 
   const panelRefs = useRef([]);
 
-  console.log("panel index: ", currentPanelIndex);
-
-  useEffect(() => {
-    if (isGameOver) {
-      console.log("User Stats: ", PlayerStats);
-    }
-  }, [isGameOver]);
-
   useEffect(() => {
     if (isCompleted && currentPanelIndex < panels.length - 1) {
       setIsTransitioning(true);

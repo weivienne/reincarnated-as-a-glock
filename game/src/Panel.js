@@ -53,8 +53,6 @@ function Panel({
   const [playCrack] = useSound(crack);
   const [playBoom] = useSound(boom);
 
-  console.log("stats=", PlayerStats)
-
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
       ? panel.mc_dialogue[dialogueIndex]
