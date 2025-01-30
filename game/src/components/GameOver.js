@@ -11,10 +11,9 @@ function GameOver() {
 
   return (
     <div className="game-over-container">
-      <div className="game-over">Game Over</div>
       <div id="game-over-container">
         <div id="game-over-menu">
-          <h1>Player Stats</h1>
+          <h1>Game Over</h1>
           <hr className="game-over-rule" />
           <div id="game-over-stats">
             <table>

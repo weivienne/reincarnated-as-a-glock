@@ -25,10 +25,9 @@ function EndGame() {
   return (
     <div className="end-game-container">
       <div className="end-game">To be continued...</div>
-      <div className="credits">Thank you for playing!</div>
       <div id="container">
         <div id="menu">
-          <h1>Player Stats</h1>
+          <h1>Thank you for playing!</h1>
           <hr className="rule" />
           <div id="stats">
             <table>
@@ -52,26 +51,31 @@ function EndGame() {
           <p>Press space to play again...</p>
         </div>
       </div>
-      <div className="credits">
-      <div id="credits">
-        <table>
-          <thead></thead>
-          <tbody>
-            <tr>
-              <th>Game Design, Art, Programming</th>
-              <td>Vivienne Ooi</td>
-            </tr>
-            <tr>
-              <th>Game Engine</th>
-              <td>React</td>
-            </tr>
-            <tr>
-              <th>Art Tool</th>
-              <td>Procreate</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="credits-vertical">
+        <div className="credits-title">Game Design, Art, Music, Programming</div>
+        <div className="credits-name">Vivienne Ooi</div>
+        <div id="credits-menu">
+        <div className="credits">
+        <div id="credits">
+          <table>
+            <tbody>
+              <tr>
+                <th>Game Engine</th>
+                <td>React</td>
+              </tr>
+              <tr>
+                <th>Art</th>
+                <td>Procreate</td>
+              </tr>
+              <tr>
+                <th>Music</th>
+                <td>Ableton Live 11</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
         </div>
+      </div>
       </div>
       <div className="special-thanks">Special thanks to Pirate Software organizers and participants for the inspiration and support.</div>
     </div>
