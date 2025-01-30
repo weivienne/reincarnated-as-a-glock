@@ -16,14 +16,6 @@ function Home() {
 
   const panelRefs = useRef([]);
 
-  console.log("panel index: ", currentPanelIndex);
-
-  useEffect(() => {
-    if (isGameOver) {
-      console.log("User Stats: ", PlayerStats);
-    }
-  }, [isGameOver]);
-
   useEffect(() => {
     if (isCompleted && currentPanelIndex < panels.length - 1) {
       setIsTransitioning(true);
@@ -33,6 +25,9 @@ function Home() {
   }, [isCompleted, currentPanelIndex, panels.length]);
 
   useEffect(() => {
+    console.log("Current Panel Index:", currentPanelIndex);
+    console.log("PanelRefs:", panelRefs.current);
+    
     if (panelRefs.current[currentPanelIndex]) {
       panelRefs.current[currentPanelIndex].scrollIntoView({
         behavior: "smooth",
@@ -55,7 +50,9 @@ function Home() {
       {panels.map((panel, index) => (
         <div
           key={panel.id}
-          ref={(el) => (panelRefs.current[index] = el)}
+          ref={(el) => {
+            if (el) panelRefs.current[index] = el;
+          }}
           className={`panel-wrapper ${
             index === currentPanelIndex ? "active" : ""
           }`}

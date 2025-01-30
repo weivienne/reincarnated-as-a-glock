@@ -53,8 +53,6 @@ function Panel({
   const [playCrack] = useSound(crack);
   const [playBoom] = useSound(boom);
 
-  console.log("stats=", PlayerStats)
-
   const dialogue =
     typeof panel.mc_dialogue?.[dialogueIndex] === "string"
       ? panel.mc_dialogue[dialogueIndex]
@@ -72,6 +70,19 @@ function Panel({
     }
     setCorrectWrong(Array(dialogue.length).fill(""));
   }, [dialogue, isActive, isTransitioning]);
+
+  useEffect(() => {
+    const preventScroll = (e) => e.preventDefault();
+  
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+  
+    return () => {
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+    };
+  }, []);
+  
 
   useEffect(() => {
     if (isGameOver) {
@@ -151,10 +162,8 @@ function Panel({
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-
-    // Cleanup the event listener on unmount
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [panel, dialogue.length, isGameOver]);
+  }, [isGameOver]);  
 
   const resetDialogue = () => {
     setMistakeCount(0);

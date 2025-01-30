@@ -5,7 +5,7 @@
   justify-content: flex-start;
   background-color: #000000;
   height: 100vh;
-  overflow-y: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
 }
 
@@ -15,10 +15,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.panel-wrapper.active {
-  outline: 2px solid #000000;
 }
 
 .panel {
