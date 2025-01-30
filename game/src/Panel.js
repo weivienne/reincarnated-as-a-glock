@@ -72,6 +72,19 @@ function Panel({
   }, [dialogue, isActive, isTransitioning]);
 
   useEffect(() => {
+    const preventScroll = (e) => e.preventDefault();
+  
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+  
+    return () => {
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+    };
+  }, []);
+  
+
+  useEffect(() => {
     if (isGameOver) {
       setCurrentBg(gameOver);
       setIsVisible(false);
@@ -149,10 +162,8 @@ function Panel({
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-
-    // Cleanup the event listener on unmount
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [panel, dialogue.length, isGameOver]);
+  }, [isGameOver]);  
 
   const resetDialogue = () => {
     setMistakeCount(0);
