@@ -17,3 +17,7 @@
   color: rgb(8, 81, 76);
   padding: 10px;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

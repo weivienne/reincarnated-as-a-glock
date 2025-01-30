@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
 import * as Constants from "./constants";
 import Panel from "./Panel";
-import PlayerStats from "./components/PlayerStats";
 
 function Home() {
   const panels = Constants.PANELS;
@@ -46,28 +45,30 @@ function Home() {
   }, [currentPanelIndex]);
 
   return (
-    <div className="comic-gallery">
-      {panels.map((panel, index) => (
-        <div
-          key={panel.id}
-          ref={(el) => {
-            if (el) panelRefs.current[index] = el;
-          }}
-          className={`panel-wrapper ${
-            index === currentPanelIndex ? "active" : ""
-          }`}
-        >
-          <Panel
-            panel={panel}
-            isActive={index === currentPanelIndex}
-            setIsCompleted={setIsCompleted}
-            setIsGameOver={setIsGameOver}
-            isGameOver={isGameOver}
-            isTransitioning={isTransitioning}
-            isEndGame={isEndGame}
-          />
-        </div>
-      ))}
+    <div className="comic-noscroll">
+      <div className="comic-gallery">
+        {panels.map((panel, index) => (
+          <div
+            key={panel.id}
+            ref={(el) => {
+              if (el) panelRefs.current[index] = el;
+            }}
+            className={`panel-wrapper ${
+              index === currentPanelIndex ? "active" : ""
+            }`}
+          >
+            <Panel
+              panel={panel}
+              isActive={index === currentPanelIndex}
+              setIsCompleted={setIsCompleted}
+              setIsGameOver={setIsGameOver}
+              isGameOver={isGameOver}
+              isTransitioning={isTransitioning}
+              isEndGame={isEndGame}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
